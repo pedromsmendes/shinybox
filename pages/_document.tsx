@@ -22,7 +22,14 @@ export default class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         </Head>
 
-        <body>
+        <body
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100vw',
+            height: '100vh',
+          }}
+        >
           <Main />
           <NextScript />
         </body>
