@@ -1,3 +1,3 @@
-import Home from '@/containers/Home';
+import Collection from '@/containers/Collection';
 
-export default Home;
+export default Collection;

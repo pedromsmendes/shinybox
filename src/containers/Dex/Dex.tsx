@@ -1,14 +1,15 @@
 import React from 'react';
 
 import Layout from '@/components/Layout';
+import Text from '@/components/Text';
 
-const TestPage = () => {
+const Dex = () => {
 
   return (
     <Layout>
-      test page
+      <Text variant="h1">DEX</Text>
     </Layout>
   );
 };
 
-export default TestPage;
+export default Dex;

@@ -4,29 +4,37 @@ import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 
-import { styled } from '@mui/material';
+import { makeStyles } from '@/styles/makeStyles';
 
-import styles from './Layout.module.css';
+import Header from '../Header';
+import Footer from '../Footer';
 
-const LayoutContainerWithStyled = styled('div')({
-  width: '100vw',
-  height: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-});
+const useStyles = makeStyles()(() => ({
+  'layoutContainer': {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}),
+);
 
 const Layout: NextPage = ({ children }) => {
   const router = useRouter();
   console.log('🚀 ~ router', router);
 
+  const { classes, cx } = useStyles();
+
   return (
-    <LayoutContainerWithStyled>
+    <div className={cx(classes.layoutContainer)}>
+      <Header />
+
       <Box sx={{ flexGrow: 1 }}>
         {children}
       </Box>
 
-      <Box className={styles.footer}>footer</Box>
-    </LayoutContainerWithStyled>
+      <Footer />
+    </div>
   );
 };
 

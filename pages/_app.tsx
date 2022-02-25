@@ -1,11 +1,12 @@
 import type { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { TssCacheProvider } from 'tss-react';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import createEmotionCache from '@/utility/createEmotionCache';
-
 import darkTheme from '@/styles/theme/darkTheme';
+import createEmotionCache from '@/styles/createEmotionCache';
+import createTssReactCache from '@/styles/createTssReactCache';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -16,12 +17,16 @@ const MyApp = (props: AppProps & { emotionCache: EmotionCache }) => {
     pageProps,
   } = props;
 
+  const tssReactCache = createTssReactCache();
+
   return (
     <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <TssCacheProvider value={tssReactCache}>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </TssCacheProvider>
     </CacheProvider>
   );
 };
