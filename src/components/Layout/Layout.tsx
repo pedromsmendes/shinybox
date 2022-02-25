@@ -10,7 +10,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 const useStyles = makeStyles()(() => ({
-  'layoutContainer': {
+  layoutContainer: {
     width: '100vw',
     height: '100vh',
     display: 'flex',
