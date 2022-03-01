@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Layout from '@/components/Layout';
-import Text from '@/components/Text';
+import Input from '@/components/Input';
+import PokemonCard from '@/components/PokemonCard';
 
 const Collection = () => {
+  const [text, setText] = useState('');
+
+  const handleTextChange = useCallback((_evt, value: string) => {
+    setText(value);
+  }, []);
 
   return (
     <Layout>
-      <Text variant="h1">COLLECTION</Text>
+      <Input
+        value={text}
+        onChange={handleTextChange}
+        placeholder="Search..."
+      />
+
+      <PokemonCard />
     </Layout>
   );
 };

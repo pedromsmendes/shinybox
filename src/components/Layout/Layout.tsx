@@ -16,6 +16,12 @@ const useStyles = makeStyles()(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  componentContainer: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '20px 20%',
+  },
 }),
 );
 
@@ -29,7 +35,7 @@ const Layout: NextPage = ({ children }) => {
     <div className={cx(classes.layoutContainer)}>
       <Header />
 
-      <Box sx={{ flexGrow: 1 }}>
+      <Box className={cx(classes.componentContainer)}>
         {children}
       </Box>
 

@@ -17,10 +17,10 @@
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [
-      "import",
-      "react",
-      "react-hooks",
-      "@typescript-eslint"
+    "import",
+    "react",
+    "react-hooks",
+    "@typescript-eslint"
   ],
   "rules": {
     "react/prop-types": 0,
@@ -38,6 +38,20 @@
       "error",
       {
         "functions": false
+      }
+    ],
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        },
+        "multilineDetection": "brackets"
       }
     ]
   }
