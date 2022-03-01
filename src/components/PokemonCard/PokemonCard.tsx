@@ -55,8 +55,8 @@ const PokemonCard = (props: PokemonCardProps) => {
         <Image
           alt="machoke"
           src="https://poketch-cdn-assets.s3.amazonaws.com/images/pokemon/static/shiny/machoke.png"
-          width={125}
-          height={125}
+          width={100}
+          height={100}
         />
       </Box>
 
