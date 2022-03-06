@@ -5,6 +5,8 @@ import createEmotionServer from '@emotion/server/create-instance';
 
 import createEmotionCache from '@/styles/createEmotionCache';
 
+import '@/globals';
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -14,9 +16,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="msapplication-TileColor" content="#b91d47" />
-          <meta name="theme-color" content="#ffffff" />
           {/* ICONS */}
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

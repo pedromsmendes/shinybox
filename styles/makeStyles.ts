@@ -1,9 +1,10 @@
 import { createMakeStyles } from 'tss-react';
 
-import darkTheme from './theme/darkTheme';
+// import darkTheme from './theme/darkTheme';
+import lightTheme from './theme/lightTheme';
 
 function useTheme() {
-  return darkTheme;
+  return lightTheme;
 }
 
 export const {

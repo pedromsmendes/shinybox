@@ -46,7 +46,7 @@ type PokemonCardProps = {
 
 };
 
-const PokemonCard = (props: PokemonCardProps) => {
+const PokemonCard = () => {
   const { classes } = useStyles();
 
   return (
