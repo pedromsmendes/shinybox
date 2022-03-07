@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+// import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { TssCacheProvider } from 'tss-react';
 
@@ -28,6 +29,7 @@ const MyApp = (props: AppProps & { emotionCache: EmotionCache }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
 
+      {/* <ApolloProvider client={apolloClient}> */}
       <CacheProvider value={emotionCache}>
         <TssCacheProvider value={tssReactCache}>
           <ThemeProvider theme={lightTheme}>
@@ -36,6 +38,7 @@ const MyApp = (props: AppProps & { emotionCache: EmotionCache }) => {
           </ThemeProvider>
         </TssCacheProvider>
       </CacheProvider>
+      {/* </ApolloProvider> */}
     </>
   );
 };

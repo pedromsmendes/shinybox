@@ -1,6 +1,5 @@
 import React from 'react';
 import { type NextPage } from 'next';
-import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 
@@ -26,9 +25,6 @@ const useStyles = makeStyles()(() => ({
 );
 
 const Layout: NextPage = ({ children }) => {
-  const router = useRouter();
-  console.log('🚀 ~ router', router);
-
   const { classes, cx } = useStyles();
 
   return (
