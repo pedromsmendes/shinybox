@@ -1,4 +1,4 @@
-import React, { useCallback, ChangeEvent } from 'react';
+import React, { useCallback, ChangeEvent, Ref } from 'react';
 
 import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 
@@ -18,6 +18,7 @@ type InputProps<TValue extends string> = {
   minRows?: number;
   maxRows?: number;
   inputBaseProps?: InputBaseProps;
+  forwardedRef?: Ref<HTMLInputElement>;
 };
 
 const Input = <TValue extends string>(props: InputProps<TValue>) => {
@@ -33,6 +34,7 @@ const Input = <TValue extends string>(props: InputProps<TValue>) => {
     minRows,
     maxRows,
     inputBaseProps,
+    forwardedRef,
   } = props;
 
   const { classes } = inputStyles();
@@ -51,6 +53,7 @@ const Input = <TValue extends string>(props: InputProps<TValue>) => {
 
   return (
     <InputBase
+      ref={forwardedRef}
       size="small"
       margin="dense"
       {...inputBaseProps}
@@ -69,4 +72,6 @@ const Input = <TValue extends string>(props: InputProps<TValue>) => {
   );
 };
 
-export default Input;
+export default React.forwardRef<HTMLInputElement, InputProps<any>>((props, ref) => (
+  <Input {...props} forwardedRef={ref} />
+));

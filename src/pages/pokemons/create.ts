@@ -1,3 +1,3 @@
-import { CreatePokemon } from '@/containers/Pokemons';
+import { PokemonCreate } from '@/containers/Pokemons';
 
-export default CreatePokemon;
+export default PokemonCreate;

@@ -1,9 +1,9 @@
 import Pokemons from './Pokemons';
 
-import CreatePokemon from './CreatePokemon';
+import PokemonCreate from './PokemonCreate';
 
 export {
-  CreatePokemon,
+  PokemonCreate,
 };
 
 export default Pokemons;
