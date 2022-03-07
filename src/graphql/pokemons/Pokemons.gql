@@ -1,0 +1,11 @@
+query Pokemons{
+  pokemons {
+    id
+    name
+    dexes {
+      id
+      number
+      name
+    }
+  }
+}

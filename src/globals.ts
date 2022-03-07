@@ -1,33 +1,29 @@
-import VariableError from '@/tools/VariableError';
+// import VariableError from '@/tools/VariableError';
 
-const variableErrors = new VariableError();
+// const variableErrors = new VariableError();
 
-if (!process.env.NODE_ENV) {
-  variableErrors.pushMissingVariable('NODE_ENV');
-}
-
-// can't seem to check this variable with NEXT
-// let parsedPort = 0;
-// if (!process.env.PORT) {
-//   console.log('🚀 ~ process.env', process.env);
-//   console.log('arroz');
-//   variableErrors.pushMissingVariable('PORT');
-// } else {
-//   parsedPort = parseInt(process.env.PORT, 10);
-
-//   if (Number.isNaN(parsedPort)) {
-//     variableErrors.pushWrongType('PORT');
-//   }
+// if (!process.env.NODE_ENV) {
+//   variableErrors.pushMissingVariable('NODE_ENV');
 // }
 
-variableErrors.throw();
+// console.log('🚀 ~ process.env.API_URL', process.env.API_URL);
+// if (!process.env.API_URL) {
+//   variableErrors.pushMissingVariable('API_URL');
+// }
 
-export const NODE_ENV = process.env.NODE_ENV!;
-export const IN_DEV = NODE_ENV === 'development';
-export const IN_TEST = NODE_ENV === 'test';
-export const IN_PROD = NODE_ENV === 'production';
-// export const PORT = parsedPort;
+// console.log('🚀 ~ process.env.API_GQL_ENDPOINT', process.env.API_GQL_ENDPOINT);
+// if (!process.env.API_GQL_ENDPOINT) {
+//   variableErrors.pushMissingVariable('API_GQL_ENDPOINT');
+// }
+
+// variableErrors.throw();
+
+export const IN_DEV = process.env.NODE_ENV === 'development';
+export const IN_TEST = process.env.NODE_ENV === 'test';
+export const IN_PROD = process.env.NODE_ENV === 'production';
 export const PORT = process.env.PORT;
+export const API_URL = process.env.API_URL;
+export const API_GQL_ENDPOINT = process.env.API_GQL_ENDPOINT;
 
 export enum Route {
   Collection = '/', // HOME

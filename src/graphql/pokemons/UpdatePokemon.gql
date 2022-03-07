@@ -1,0 +1,11 @@
+mutation UpdatePokemon($data: PokemonUpdate!){
+  updatePokemon(data: $data) {
+    id
+    name
+    dexes {
+      id
+      number
+      name
+    }
+  }
+}

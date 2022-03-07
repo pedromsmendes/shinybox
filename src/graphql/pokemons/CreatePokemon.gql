@@ -1,0 +1,11 @@
+mutation CreatePokemon($data: PokemonCreate!) {
+  createPokemon(data: $data) {
+    id
+    name
+    dexes {
+      id
+      number
+      name
+    }
+  }
+}

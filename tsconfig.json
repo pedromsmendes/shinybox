@@ -54,8 +54,14 @@
       "@/hooks/*": [
         "src/hooks/*"
       ],
+      "@/apolloClient": [
+        "src/tools/apolloClient"
+      ],
       "@/tools/*": [
         "src/tools/*"
+      ],
+      "@/graphql/*": [
+        "src/graphql/*"
       ],
       "@/globals": [
         "src/globals"
@@ -88,6 +94,7 @@
     "next-env.d.ts",
     "next.config.js",
     "**/*.ts",
+    "**/*.js",
     "**/*.tsx",
     "**/*.css",
     "**/*.gql",

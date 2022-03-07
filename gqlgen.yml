@@ -1,0 +1,28 @@
+overwrite: true
+schema:
+  - "gqlSchema.json"
+documents: ['src/graphql/**/*.gql']
+generates:
+  src/graphql/types.generated.ts:
+    plugins:
+      - typescript
+      - named-operations-object
+    config:
+      skipTypename: true
+      identifierName: GQLOperations
+
+  src/graphql/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: "types.generated.ts"
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withComponent: false
+      withHOC: false
+      withHooks: true
+      withRefetchFn: true
+      skipTypename: true
+      apolloReactHooksImportFrom: "@/apolloClient"

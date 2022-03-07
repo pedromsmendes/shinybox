@@ -99,8 +99,6 @@ const Header = () => {
     }
   }, [router]);
 
-  console.log('🚀 ~ Header ~ drawerState', drawerState);
-
   return (
     <>
       <AppBar position="static">
