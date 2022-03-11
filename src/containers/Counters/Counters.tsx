@@ -1,14 +1,12 @@
 import React from 'react';
 
-import Layout from '@/components/Layout';
-import Text from '@/components/Text';
+import { Text } from '@mantine/core';
 
 const Counters = () => {
-
   return (
-    <Layout>
-      <Text variant="h1">COUNTERS</Text>
-    </Layout>
+    <div>
+      <Text>COUNTERS</Text>
+    </div>
   );
 };
 

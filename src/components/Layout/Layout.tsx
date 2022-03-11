@@ -1,42 +1,35 @@
-import React from 'react';
-import { type NextPage } from 'next';
+import React, { ReactNode } from 'react';
 
-import Box from '@mui/material/Box';
-
-import { makeStyles } from '@/styles/makeStyles';
+import { AppShell, createStyles } from '@mantine/core';
 
 import Header from '../Header';
+import Navbar from '../Navbar';
 import Footer from '../Footer';
 
-const useStyles = makeStyles()(() => ({
-  layoutContainer: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
+const useStyles = createStyles(() => ({
+  layout: {
+    border: '1px solid red',
   },
-  componentContainer: {
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '20px 20%',
-  },
-}),
-);
+}));
 
-const Layout: NextPage = ({ children }) => {
-  const { classes, cx } = useStyles();
+type LayoutProps = {
+  children?: ReactNode;
+};
+
+const Layout = ({ children }: LayoutProps) => {
+  const { classes } = useStyles();
 
   return (
-    <div className={cx(classes.layoutContainer)}>
-      <Header />
-
-      <Box className={cx(classes.componentContainer)}>
+    <>
+      <AppShell
+        header={<Header />}
+        navbar={<Navbar />}
+      >
         {children}
-      </Box>
+      </AppShell>
 
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -1,25 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
-import Layout from '@/components/Layout';
-import Input from '@/components/Input';
+import { Text } from '@mantine/core';
 
 const Pokemons = () => {
-  const [text, setText] = useState('');
-
-  const handleTextChange = useCallback((_evt, value: string) => {
-    setText(value);
-  }, []);
-
   return (
-    <Layout>
-      <Input
-        value={text}
-        onChange={handleTextChange}
-        placeholder="Search..."
-      />
-
-      POKEMONS
-    </Layout>
+    <div>
+      <Text>POKEMONS</Text>
+    </div>
   );
 };
 

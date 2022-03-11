@@ -1,14 +1,12 @@
 import React from 'react';
 
-import Layout from '@/components/Layout';
-import Text from '@/components/Text';
+import { Text } from '@mantine/core';
 
 const Dex = () => {
-
   return (
-    <Layout>
-      <Text variant="h1">DEX</Text>
-    </Layout>
+    <div>
+      <Text>DEX</Text>
+    </div>
   );
 };
 
