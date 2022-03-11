@@ -1,9 +1,8 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import ButtonBase from '@mui/material/ButtonBase';
-
 import Layout from '@/components/Layout';
+import Button from '@/components/Button/Button';
 
 // import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
 import PokemonCreateForm from './PokemonCreateForm';
@@ -43,9 +42,9 @@ const PokemonCreate = () => {
         </form>
       </FormProvider>
 
-      <ButtonBase>
+      <Button>
         Create
-      </ButtonBase>
+      </Button>
     </Layout>
   );
 };
