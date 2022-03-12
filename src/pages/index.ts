@@ -1,3 +1,3 @@
-import Collection from '@/containers/Collection';
+import Collection from '@/containers/Pokemons';
 
 export default Collection;

@@ -8,12 +8,15 @@ import Footer from '../Footer';
 
 const useStyles = createStyles((theme) => ({
   layout: {
-    padding: 0,
+    padding: theme.spacing.xs,
     marginLeft: theme.other.navbarWidth,
     marginTop: theme.other.headerHeight,
     width: `calc(100vh - ${theme.other.navbarWidth})`,
     height: `calc(100vh - ${theme.other.headerHeight + theme.other.footerHeight}px)`,
     flexGrow: 1,
+    '&>div': {
+      height: '100%',
+    },
   },
 }));
 

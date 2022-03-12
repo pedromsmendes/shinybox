@@ -5,9 +5,14 @@ import {
   createStyles,
   ActionIcon,
   Navbar as MantineNavbar,
+  Divider,
 } from '@mantine/core';
 
-import { Menu2 as MenuIcon } from 'tabler-icons-react';
+import {
+  Menu2 as MenuIcon,
+  Plus as AddIcon,
+} from 'tabler-icons-react';
+import NavbarRoute from './NavbarRoute';
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -20,7 +25,7 @@ const useStyles = createStyles((theme) => ({
   },
   menuButton: {
     width: theme.other.navbarWidth,
-    height: theme.other.navbarWidth,
+    height: theme.other.navbarWidth - 1,
     borderRadius: theme.other.navbarWidth / 2,
     display: 'flex',
     alignContent: 'center',
@@ -38,12 +43,24 @@ const Navbar = () => {
 
   return (
     <MantineNavbar
-      className={clsx(classes.navbar, open && classes.navbarOpen)}
       fixed
+      className={clsx(classes.navbar, open && classes.navbarOpen)}
     >
       <ActionIcon className={classes.menuButton} onClick={toggleNavbar}>
         <MenuIcon />
       </ActionIcon>
+
+      <Divider />
+
+      <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
+        Create pokémon
+      </NavbarRoute>
+      <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
+        Create pokémon
+      </NavbarRoute>
+      <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
+        Create pokémon
+      </NavbarRoute>
     </MantineNavbar>
   );
 };
