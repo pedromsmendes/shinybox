@@ -1,34 +1,49 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import clsx from 'clsx';
-import { Button, createStyles, Navbar as MantineNavbar, NavbarProps as MantineNavbarProps } from '@mantine/core';
+import {
+  createStyles,
+  ActionIcon,
+  Navbar as MantineNavbar,
+} from '@mantine/core';
 
-const useStyles = createStyles(() => ({
+import { Menu2 as MenuIcon } from 'tabler-icons-react';
+
+const useStyles = createStyles((theme) => ({
   navbar: {
-    width: 50,
-    transition: 'width 150ms',
+    width: theme.other.navbarWidth,
+    transition: 'width 200ms ease-out',
+    overflowX: 'hidden',
   },
   navbarOpen: {
-    width: 300,
+    width: theme.other.navbarOpenWidth,
+  },
+  menuButton: {
+    width: theme.other.navbarWidth,
+    height: theme.other.navbarWidth,
+    borderRadius: theme.other.navbarWidth / 2,
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 }));
 
-type NavbarProps = {
-  mantineNavbarProps?: MantineNavbarProps;
-};
-
-const Navbar = ({ mantineNavbarProps }: NavbarProps) => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { classes } = useStyles();
 
+  const toggleNavbar = useCallback(() => {
+    setOpen((prevState) => !prevState);
+  }, []);
+
   return (
     <MantineNavbar
-      {...mantineNavbarProps}
       className={clsx(classes.navbar, open && classes.navbarOpen)}
       fixed
     >
-      NAVBAR
-      <Button onClick={() => setOpen(!open)}>open</Button>
+      <ActionIcon className={classes.menuButton} onClick={toggleNavbar}>
+        <MenuIcon />
+      </ActionIcon>
     </MantineNavbar>
   );
 };

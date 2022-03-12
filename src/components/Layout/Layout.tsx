@@ -6,9 +6,14 @@ import Header from '../Header';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   layout: {
-    border: '1px solid red',
+    padding: 0,
+    marginLeft: theme.other.navbarWidth,
+    marginTop: theme.other.headerHeight,
+    width: `calc(100vh - ${theme.other.navbarWidth})`,
+    height: `calc(100vh - ${theme.other.headerHeight + theme.other.footerHeight}px)`,
+    flexGrow: 1,
   },
 }));
 
@@ -24,6 +29,7 @@ const Layout = ({ children }: LayoutProps) => {
       <AppShell
         header={<Header />}
         navbar={<Navbar />}
+        classNames={{ main: classes.layout }}
       >
         {children}
       </AppShell>

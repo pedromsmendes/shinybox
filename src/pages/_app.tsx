@@ -33,9 +33,12 @@ const MyApp = (props: AppProps) => {
           withGlobalStyles
           withNormalizeCSS
           theme={{
-            colorScheme: 'light',
+            colorScheme: 'dark',
             other: {
               headerHeight: 50,
+              navbarWidth: 50,
+              navbarOpenWidth: 300,
+              footerHeight: 30,
             },
           }}
         >
