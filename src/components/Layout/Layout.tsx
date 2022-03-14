@@ -1,42 +1,52 @@
-import React from 'react';
-import { type NextPage } from 'next';
+import React, { ReactNode } from 'react';
 
-import Box from '@mui/material/Box';
-
-import { makeStyles } from '@/styles/makeStyles';
+import { AppShell, createStyles, ScrollArea } from '@mantine/core';
 
 import Header from '../Header';
+import Navbar from '../Navbar';
 import Footer from '../Footer';
 
-const useStyles = makeStyles()(() => ({
-  layoutContainer: {
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  componentContainer: {
+const useStyles = createStyles((theme) => ({
+  layout: {
+    padding: theme.spacing.xs,
+    marginLeft: theme.other.navbarWidth,
+    marginTop: theme.other.headerHeight,
+    width: `calc(100vh - ${theme.other.navbarWidth})`,
+    height: `calc(100vh - ${theme.other.headerHeight + theme.other.footerHeight}px)`,
     flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '20px 20%',
+    '&>div': {
+      height: '100%',
+    },
   },
-}),
-);
+  viewport: {
+    '&>*': {
+      height: '100%',
+      display: 'flex !important',
+    },
+  },
+}));
 
-const Layout: NextPage = ({ children }) => {
-  const { classes, cx } = useStyles();
+type LayoutProps = {
+  children?: ReactNode;
+};
+
+const Layout = ({ children }: LayoutProps) => {
+  const { classes } = useStyles();
 
   return (
-    <div className={cx(classes.layoutContainer)}>
-      <Header />
-
-      <Box className={cx(classes.componentContainer)}>
-        {children}
-      </Box>
+    <>
+      <AppShell
+        header={<Header />}
+        navbar={<Navbar />}
+        classNames={{ main: classes.layout }}
+      >
+        <ScrollArea classNames={{ viewport: classes.viewport }}>
+          {children}
+        </ScrollArea>
+      </AppShell>
 
       <Footer />
-    </div>
+    </>
   );
 };
 

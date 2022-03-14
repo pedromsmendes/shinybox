@@ -2,7 +2,6 @@ import { writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 
 const fetchSchema = async () => {
-  console.log('🚀 ~ fetchSchema ~ process.env.API_URL', process.env.API_URL);
   if (!process.env.API_URL) {
     console.error('Missing API_URL!');
     return;
@@ -121,10 +120,8 @@ const fetchSchema = async () => {
       `,
     }),
   });
-  console.log('🚀 ~ fetchSchema ~ fetchRes', fetchRes);
 
   const res = await fetchRes.json();
-  console.log('🚀 ~ fetchSchema ~ res', res);
   writeFileSync('gqlSchema.json', JSON.stringify(res, null, 2));
 };
 

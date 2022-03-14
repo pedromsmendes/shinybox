@@ -126,6 +126,7 @@ export const GQLOperations = {
   },
   Mutation: {
     CreatePokemon: 'CreatePokemon',
+    RemovePokemons: 'RemovePokemons',
     UpdatePokemon: 'UpdatePokemon'
   }
 }

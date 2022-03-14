@@ -1,51 +1,46 @@
 import React from 'react';
+
+import { TextInput } from '@mantine/core';
+
 import { Controller, useFormContext } from 'react-hook-form';
 
-import Input from '@/components/Input';
-
-import { PokemonCreateInputs } from './PokemonCreate';
-import { makeStyles } from '@/styles/makeStyles';
-
-const useStyles = makeStyles()((theme) => ({
-  pokemonCreateForm: {
-    border: '1px solid red',
-    '&>:not(:last-child)': {
-      marginBottom: theme.spacing(1),
-    },
-  },
-}));
+import { PokemonCreateFormValues } from './PokemonCreate';
 
 const PokemonCreateForm = () => {
-  const { control } = useFormContext<PokemonCreateInputs>();
-
-  const { classes } = useStyles();
+  const { control } = useFormContext<PokemonCreateFormValues>();
 
   return (
-    <div className={classes.pokemonCreateForm}>
+    <>
       <Controller
         name="name"
         control={control}
         render={({ field }) => (
-          <Input
+          <TextInput
             {...field}
-            placeholder="Name"
-            inputBaseProps={{ fullWidth: true }}
+            required
+            radius="lg"
+            size="md"
+            label="Name"
+            placeholder="Eg: Bulbasaur"
           />
         )}
       />
-
 
       <Controller
         name="number"
         control={control}
         render={({ field }) => (
-          <Input
+          <TextInput
             {...field}
-            placeholder="Number"
+            required
+            radius="lg"
+            size="md"
+            label="Number"
+            placeholder="Eg: 1"
           />
         )}
       />
-    </div>
+    </>
   );
 };
 

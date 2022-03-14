@@ -1,51 +1,65 @@
-import React from 'react';
+import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
+import { Button, createStyles, Group } from '@mantine/core';
+import React, { useCallback } from 'react';
+
 import { FormProvider, useForm } from 'react-hook-form';
 
-import Layout from '@/components/Layout';
-import Button from '@/components/Button/Button';
-
-// import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
 import PokemonCreateForm from './PokemonCreateForm';
 
-export type PokemonCreateInputs = {
-  number: number;
+const useStyles = createStyles((theme) => ({
+  form: {
+    '&>:not(:last-child)': {
+      marginBottom: theme.spacing.xs,
+    },
+  },
+}));
+
+export type PokemonCreateFormValues = {
   name: string;
+  number: string;
 };
 
 const PokemonCreate = () => {
-  // const [createPokemon] = useCreatePokemonMutation();
-  const form = useForm<PokemonCreateInputs>();
+  const { classes } = useStyles();
 
-  // const handleCreateClick = useCallback(async () => {
-  //   const parsedNumber = parseInt(number, 10);
+  const form = useForm<PokemonCreateFormValues>({
+    defaultValues: {
+      name: '',
+      number: '',
+    },
+  });
 
-  //   if (name && !Number.isNaN(parsedNumber)) {
-  //     await createPokemon({
-  //       variables: {
-  //         data: {
-  //           name,
-  //           dexes: [{ dexId: 1, name, number: parsedNumber }],
-  //         },
-  //       },
-  //       fetchPolicy: 'network-only',
-  //     });
-  //   }
-  // }, [createPokemon, name, number]);
+  const [createPokemon] = useCreatePokemonMutation();
 
-  const onSubmit = (data: any) => console.log(data);
+  const handleSubmit = useCallback(async (values: PokemonCreateFormValues) => {
+    console.log('🚀 ~ handleSubmit ~ values', values);
+    const res = await createPokemon({
+      variables: {
+        data: {
+          name: values.name,
+          dexes: [{
+            dexId: 1,
+            name: values.name,
+            number: 2,
+          }],
+        },
+      },
+    });
+    console.log('🚀 ~ handleSubmit ~ res', res);
+  }, [createPokemon]);
 
   return (
-    <Layout>
+    <div>
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
           <PokemonCreateForm />
+
+          <Group position="right">
+            <Button type="submit">Create</Button>
+          </Group>
         </form>
       </FormProvider>
-
-      <Button>
-        Create
-      </Button>
-    </Layout>
+    </div>
   );
 };
 

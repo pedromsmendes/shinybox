@@ -1,0 +1,3 @@
+mutation RemovePokemons($ids: [Int!]!){
+  removePokemons(ids: $ids)
+}
