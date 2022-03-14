@@ -1,29 +1,36 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode } from 'react';
 
-import clsx from 'clsx';
 import {
   createStyles,
   ScrollArea,
   Table as MantineTable,
 } from '@mantine/core';
 
-import { useIntersection } from '@mantine/hooks';
-
 const useStyles = createStyles((theme) => ({
   tableContainer: {
-    padding: theme.spacing.lg,
-    background: 'red',
-    height: '100%',
-    flexGrow: 1,
+    width: '100%',
   },
-  table: {
+  table: {},
+  header: {
+    zIndex: 1,
+    position: 'sticky',
+    top: 0,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[2]}`,
+    },
   },
-  headers: {
-    backgroundColor: 'darkgreen',
+  thumb: {
+    zIndex: 1,
   },
 }));
 
-type TableProps = {
+type TableStickyProps = {
   headers: ReactNode;
   children: ReactNode;
   striped?: boolean;
@@ -32,46 +39,35 @@ type TableProps = {
   tableClassName?: string;
 };
 
-const Table = (props: TableProps) => {
+const Table = (props: TableStickyProps) => {
   const {
     headers,
-    children,
+    children: rows,
     striped = true,
     highlightOnHover = true,
     className,
     tableClassName,
   } = props;
 
-  const { classes } = useStyles();
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  let [theadRef, observer] = useIntersection<HTMLTableSectionElement>({
-    root: containerRef.current,
-    threshold: 1,
-  });
-
-  useEffect(() => {
-    if (!observer?.isIntersecting) {
-      console.log('not');
-    }
-  }, [observer?.isIntersecting]);
+  const { cx, classes } = useStyles();
 
   return (
-    <ScrollArea ref={containerRef} className={clsx(classes.tableContainer, className)}>
+    <ScrollArea
+      classNames={{
+        root: cx(classes.tableContainer, className),
+        thumb: classes.thumb,
+      }}
+    >
       <MantineTable
         striped={striped}
         highlightOnHover={highlightOnHover}
-        className={clsx(classes.table, tableClassName)}
+        className={cx(classes.table, tableClassName)}
       >
-        <thead ref={theadRef} className={classes.headers}>
-          <tr>
-            {headers}
-          </tr>
+        <thead className={cx(classes.header)}>
+          <tr>{headers}</tr>
         </thead>
 
-        <tbody>
-          {children}
-        </tbody>
+        <tbody>{rows}</tbody>
       </MantineTable>
     </ScrollArea>
   );
