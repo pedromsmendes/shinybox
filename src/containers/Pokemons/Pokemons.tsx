@@ -10,7 +10,7 @@ import { Trash as DeleteIcon } from 'tabler-icons-react';
 
 import { usePokemonsQuery } from '@/graphql/pokemons/Pokemons.generated';
 import { useRemovePokemonsMutation } from '@/graphql/pokemons/DeletePokemon.generated';
-import Table from '@/components/Table';
+import Table from '@/components/Table/TableSticky';
 
 const useStyles = createStyles(() => ({
   pokemonsContainer: {
