@@ -1,36 +1,70 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
+  ActionIcon,
   createStyles,
   LoadingOverlay,
-  Text,
 } from '@mantine/core';
 
+import { Trash as DeleteIcon } from 'tabler-icons-react';
+
 import { usePokemonsQuery } from '@/graphql/pokemons/Pokemons.generated';
+import { useRemovePokemonsMutation } from '@/graphql/pokemons/DeletePokemon.generated';
+import Table from '@/components/Table';
 
 const useStyles = createStyles(() => ({
   pokemonsContainer: {
     position: 'relative', // for the loading overlay
+    height: '100%',
+    width: '100%',
+    display: 'flex',
   },
 }));
 
 const Pokemons = () => {
   const { classes } = useStyles();
 
-  const { data, loading } = usePokemonsQuery({
+  const { data, loading, refetch } = usePokemonsQuery({
     fetchPolicy: 'cache-and-network',
   });
+
+  const [removePokemons] = useRemovePokemonsMutation();
+
+  const handleRemovePokemons = useCallback((id: number) => async () => {
+    await removePokemons({
+      variables: {
+        ids: [id],
+      },
+    });
+
+    refetch();
+  }, [refetch, removePokemons]);
 
   return (
     <div className={classes.pokemonsContainer}>
       <LoadingOverlay visible={loading} radius="sm" />
 
-      <Text>POKEMONS</Text>
-      {data?.pokemons.map((pokemon) => (
-        <div key={pokemon.id}>
-          <Text>{pokemon.name}</Text>
-        </div>
-      ))}
+      <Table
+        headers={(
+          <>
+            <th>ID</th>
+            <th>Name</th>
+            <th align="right" />
+          </>
+        )}
+      >
+        {data?.pokemons.map((pokemon) => (
+          <tr key={pokemon.id}>
+            <td>{pokemon.id}</td>
+            <td>{pokemon.name}</td>
+            <td align="right">
+              <ActionIcon onClick={handleRemovePokemons(pokemon.id)}>
+                <DeleteIcon />
+              </ActionIcon>
+            </td>
+          </tr>
+        ))}
+      </Table>
     </div>
   );
 };

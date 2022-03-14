@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { AppShell, createStyles } from '@mantine/core';
+import { AppShell, createStyles, ScrollArea } from '@mantine/core';
 
 import Header from '../Header';
 import Navbar from '../Navbar';
@@ -16,6 +16,12 @@ const useStyles = createStyles((theme) => ({
     flexGrow: 1,
     '&>div': {
       height: '100%',
+    },
+  },
+  viewport: {
+    '&>*': {
+      height: '100%',
+      display: 'flex !important',
     },
   },
 }));
@@ -34,7 +40,9 @@ const Layout = ({ children }: LayoutProps) => {
         navbar={<Navbar />}
         classNames={{ main: classes.layout }}
       >
-        {children}
+        <ScrollArea classNames={{ viewport: classes.viewport }}>
+          {children}
+        </ScrollArea>
       </AppShell>
 
       <Footer />
