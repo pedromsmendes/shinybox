@@ -1,0 +1,11 @@
+mutation CreateDex($data: DexCreate!) {
+  createDex(data: $data) {
+    id
+    name
+    pokemons {
+      id
+      number
+      name
+    }
+  }
+}

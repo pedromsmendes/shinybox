@@ -1,0 +1,11 @@
+mutation UpdateDex($data: DexUpdate!){
+  updateDex(data: $data) {
+    id
+    name
+    pokemons {
+      id
+      number
+      name
+    }
+  }
+}

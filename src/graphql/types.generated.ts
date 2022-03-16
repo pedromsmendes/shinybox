@@ -26,11 +26,17 @@ export type DexCreate = {
   name: Scalars['String'];
 };
 
+export type DexUpdate = {
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
 export type Mutation = {
-  createDex: Dex;
+  createDex?: Maybe<Dex>;
   createPokemon?: Maybe<Pokemon>;
   removeDexes: Scalars['Int'];
   removePokemons: Scalars['Int'];
+  updateDex?: Maybe<Dex>;
   updatePokemon?: Maybe<Pokemon>;
 };
 
@@ -52,6 +58,11 @@ export type MutationRemoveDexesArgs = {
 
 export type MutationRemovePokemonsArgs = {
   ids: Array<Scalars['Int']>;
+};
+
+
+export type MutationUpdateDexArgs = {
+  data: DexUpdate;
 };
 
 
@@ -103,9 +114,9 @@ export type PokemonUpdate = {
 };
 
 export type Query = {
-  dex: Dex;
+  dex?: Maybe<Dex>;
   dexes: Array<Dex>;
-  pokemon: Pokemon;
+  pokemon?: Maybe<Pokemon>;
   pokemons: Array<Pokemon>;
 };
 
@@ -125,6 +136,9 @@ export const GQLOperations = {
     Pokemons: 'Pokemons'
   },
   Mutation: {
+    CreateDex: 'CreateDex',
+    RemoveDexes: 'RemoveDexes',
+    UpdateDex: 'UpdateDex',
     CreatePokemon: 'CreatePokemon',
     RemovePokemons: 'RemovePokemons',
     UpdatePokemon: 'UpdatePokemon'

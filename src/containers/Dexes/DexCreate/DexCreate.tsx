@@ -1,10 +1,12 @@
-import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
-import { Button, createStyles, Group } from '@mantine/core';
 import React, { useCallback } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
 
-import PokemonCreateForm from './PokemonCreateForm';
+import { Button, createStyles, Group } from '@mantine/core';
+
+import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
+
+import DexCreateForm from './DexCreateForm';
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -14,46 +16,37 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export type PokemonCreateFormValues = {
+export type DexCreateFormValues = {
   name: string;
-  dexId: string;
-  number: string;
 };
 
-const PokemonCreate = () => {
+const DexCreate = () => {
   const { classes } = useStyles();
 
-  const form = useForm<PokemonCreateFormValues>({
+  const form = useForm<DexCreateFormValues>({
     defaultValues: {
       name: '',
-      dexId: '',
-      number: '',
     },
   });
 
-  const [createPokemon] = useCreatePokemonMutation();
+  const [createDex] = useCreateDexMutation();
 
-  const handleSubmit = useCallback(async (values: PokemonCreateFormValues) => {
-    const res = await createPokemon({
+  const handleSubmit = useCallback(async (values: DexCreateFormValues) => {
+    const res = await createDex({
       variables: {
         data: {
           name: values.name,
-          dexes: [{
-            dexId: 2,
-            name: values.name,
-            number: 2,
-          }],
         },
       },
     });
     console.log('🚀 ~ handleSubmit ~ res', res);
-  }, [createPokemon]);
+  }, [createDex]);
 
   return (
     <div>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
-          <PokemonCreateForm />
+          <DexCreateForm />
 
           <Group position="right">
             <Button
@@ -69,4 +62,4 @@ const PokemonCreate = () => {
   );
 };
 
-export default PokemonCreate;
+export default DexCreate;

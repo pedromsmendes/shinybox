@@ -1,0 +1,3 @@
+mutation RemoveDexes($ids: [Int!]!){
+  removeDexes(ids: $ids)
+}

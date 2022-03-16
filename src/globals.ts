@@ -27,7 +27,7 @@ export const API_GQL_ENDPOINT = process.env.API_GQL_ENDPOINT;
 
 export enum Route {
   Collection = '/', // HOME
-  Dex = '/dex',
+  Dexes = '/dexes',
   Counters = '/counters',
   Pokemons = '/pokemons',
 }
