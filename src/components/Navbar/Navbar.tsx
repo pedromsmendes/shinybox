@@ -5,7 +5,6 @@ import {
   createStyles,
   ActionIcon,
   Navbar as MantineNavbar,
-  Divider,
 } from '@mantine/core';
 
 import {
@@ -25,7 +24,7 @@ const useStyles = createStyles((theme) => ({
   },
   menuButton: {
     width: theme.other.navbarWidth,
-    height: theme.other.navbarWidth - 1,
+    height: theme.other.navbarWidth,
     borderRadius: theme.other.navbarWidth / 2,
     display: 'flex',
     alignContent: 'center',
@@ -50,16 +49,14 @@ const Navbar = () => {
         <MenuIcon />
       </ActionIcon>
 
-      <Divider />
-
       <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
         Create pokémon
       </NavbarRoute>
-      <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
-        Create pokémon
+      <NavbarRoute href="/dexes/create" icon={<AddIcon />}>
+        Create dex
       </NavbarRoute>
-      <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
-        Create pokémon
+      <NavbarRoute href="#" icon={<AddIcon />}>
+        Create counter (not implemented)
       </NavbarRoute>
     </MantineNavbar>
   );
