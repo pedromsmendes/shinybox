@@ -60,16 +60,12 @@ const PokemonCreateForm = () => {
     remove(idx);
   }, [remove]);
 
-  const dexes = useMemo(() => (
-    data?.dexes || []
-  ), [data?.dexes]);
+  const dexes = useMemo(() => data?.dexes || [], [data?.dexes]);
 
-  const dexesSelect = useMemo(() => (
-    dexes.map((dex) => ({
-      value: `${dex.id}`,
-      label: dex.name,
-    }))
-  ), [dexes]);
+  const dexesSelect = useMemo(() => dexes.map((dex) => ({
+    value: `${dex.id}`,
+    label: dex.name,
+  })), [dexes]);
 
   return (
     <>
@@ -112,6 +108,7 @@ const PokemonCreateForm = () => {
                     required
                     searchable
                     creatable
+                    nothingFound={tr('No dexes. Add one')}
                     disabled={creatingDex || loadingDexes}
                     radius="lg"
                     size="md"
