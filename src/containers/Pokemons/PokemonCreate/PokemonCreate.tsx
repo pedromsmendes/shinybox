@@ -1,8 +1,11 @@
-import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
-import { Button, createStyles, Group } from '@mantine/core';
 import React, { useCallback } from 'react';
-
 import { FormProvider, useForm } from 'react-hook-form';
+
+import { Button, createStyles, Group } from '@mantine/core';
+
+import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
+
+import { useTr } from '@/tools/translator';
 
 import PokemonCreateForm from './PokemonCreateForm';
 
@@ -16,18 +19,22 @@ const useStyles = createStyles((theme) => ({
 
 export type PokemonCreateFormValues = {
   name: string;
-  dexId: string;
-  number: string;
+  dexes: Array<{
+    dexId: string;
+    name: string;
+    number: string;
+  }>;
 };
 
 const PokemonCreate = () => {
   const { classes } = useStyles();
 
+  const tr = useTr();
+
   const form = useForm<PokemonCreateFormValues>({
     defaultValues: {
       name: '',
-      dexId: '',
-      number: '',
+      dexes: [{ dexId: '', name: '', number: '' }],
     },
   });
 
@@ -38,11 +45,11 @@ const PokemonCreate = () => {
       variables: {
         data: {
           name: values.name,
-          dexes: [{
-            dexId: 2,
-            name: values.name,
-            number: 2,
-          }],
+          dexes: values.dexes.map((dex) => ({
+            dexId: parseInt(dex.dexId, 10),
+            name: dex.name,
+            number: parseInt(dex.number, 10),
+          })),
         },
       },
     });
@@ -53,16 +60,16 @@ const PokemonCreate = () => {
     <div>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
-          <PokemonCreateForm />
-
           <Group position="right">
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
             >
-              Create
+              {tr('Create')}
             </Button>
           </Group>
+
+          <PokemonCreateForm />
         </form>
       </FormProvider>
     </div>

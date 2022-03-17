@@ -34,7 +34,7 @@ type TableStickyProps = {
   headers: ReactNode;
   children: ReactNode;
   striped?: boolean;
-  highlightOnHover?: boolean;
+  hover?: boolean;
   className?: string;
   tableClassName?: string;
 };
@@ -44,7 +44,7 @@ const Table = (props: TableStickyProps) => {
     headers,
     children: rows,
     striped = true,
-    highlightOnHover = true,
+    hover = true,
     className,
     tableClassName,
   } = props;
@@ -60,7 +60,7 @@ const Table = (props: TableStickyProps) => {
     >
       <MantineTable
         striped={striped}
-        highlightOnHover={highlightOnHover}
+        highlightOnHover={hover}
         className={cx(classes.table, tableClassName)}
       >
         <thead className={cx(classes.header)}>
