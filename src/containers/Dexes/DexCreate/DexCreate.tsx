@@ -6,6 +6,8 @@ import { Button, createStyles, Group } from '@mantine/core';
 
 import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
 
+import { useTr } from '@/tools/translator';
+
 import DexCreateForm from './DexCreateForm';
 
 const useStyles = createStyles((theme) => ({
@@ -22,6 +24,8 @@ export type DexCreateFormValues = {
 
 const DexCreate = () => {
   const { classes } = useStyles();
+
+  const tr = useTr();
 
   const form = useForm<DexCreateFormValues>({
     defaultValues: {
@@ -53,7 +57,7 @@ const DexCreate = () => {
               type="submit"
               disabled={form.formState.isSubmitting}
             >
-              Create
+              {tr('Create')}
             </Button>
           </Group>
         </form>

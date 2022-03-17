@@ -2,6 +2,8 @@ import React from 'react';
 
 import { createStyles, Text } from '@mantine/core';
 
+import { useTr } from '@/tools/translator';
+
 const useStyles = createStyles((theme) => ({
   footer: {
     marginLeft: theme.other.navbarWidth,
@@ -21,11 +23,13 @@ const useStyles = createStyles((theme) => ({
 const Footer = () => {
   const { classes } = useStyles();
 
+  const tr = useTr();
+
   return (
     <div className={classes.footer}>
       <div>
-        <Text>2999</Text>
-        <Text>Testing stuff</Text>
+        <Text>{tr('9999')}</Text>
+        <Text>{tr('Testing stuff')}</Text>
       </div>
     </div>
   );

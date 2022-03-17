@@ -13,6 +13,8 @@ import { useRemoveDexesMutation } from '@/graphql/dexes/DeleteDex.generated';
 
 import Table from '@/components/Table';
 
+import { useTr } from '@/tools/translator';
+
 const useStyles = createStyles(() => ({
   dexesContainer: {
     position: 'relative', // for the loading overlay
@@ -24,6 +26,8 @@ const useStyles = createStyles(() => ({
 
 const Dexes = () => {
   const { classes } = useStyles();
+
+  const tr = useTr();
 
   const { data, loading, refetch } = useDexesQuery({
     fetchPolicy: 'cache-and-network',
@@ -48,8 +52,8 @@ const Dexes = () => {
       <Table
         headers={(
           <>
-            <th>ID</th>
-            <th>Name</th>
+            <th>{tr('ID')}</th>
+            <th>{tr('Name')}</th>
             <th align="right" />
           </>
         )}

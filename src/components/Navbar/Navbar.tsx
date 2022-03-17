@@ -11,6 +11,9 @@ import {
   Menu2 as MenuIcon,
   Plus as AddIcon,
 } from 'tabler-icons-react';
+
+import { useTr } from '@/tools/translator';
+
 import NavbarRoute from './NavbarRoute';
 
 const useStyles = createStyles((theme) => ({
@@ -36,6 +39,8 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { classes } = useStyles();
 
+  const tr = useTr();
+
   const toggleNavbar = useCallback(() => {
     setOpen((prevState) => !prevState);
   }, []);
@@ -50,13 +55,13 @@ const Navbar = () => {
       </ActionIcon>
 
       <NavbarRoute href="/pokemons/create" icon={<AddIcon />}>
-        Create pokémon
+        {tr('Create pokémon')}
       </NavbarRoute>
       <NavbarRoute href="/dexes/create" icon={<AddIcon />}>
-        Create dex
+        {tr('Create dex')}
       </NavbarRoute>
       <NavbarRoute href="#" icon={<AddIcon />}>
-        Create counter (not implemented)
+        {tr('Create counter (not implemented)')}
       </NavbarRoute>
     </MantineNavbar>
   );

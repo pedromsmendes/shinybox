@@ -6,6 +6,7 @@ import { MantineProvider } from '@mantine/core';
 
 import { API_GQL_ENDPOINT, API_URL, IN_DEV } from '@/globals';
 import Layout from '@/components/Layout';
+import { TranslatorProvider } from '@/tools/translator';
 
 const MyApp = (props: AppProps) => {
   const {
@@ -42,9 +43,11 @@ const MyApp = (props: AppProps) => {
             },
           }}
         >
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <TranslatorProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </TranslatorProvider>
         </MantineProvider>
       </ApolloProvider>
     </>

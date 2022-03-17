@@ -10,6 +10,8 @@ import {
 
 import { Route } from '@/globals';
 
+import { useTr } from '@/tools/translator';
+
 import HeaderLink from './HeaderLink';
 
 const useStyles = createStyles((theme) => ({
@@ -36,6 +38,8 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
 
   const { pathname } = useRouter();
 
+  const tr = useTr();
+
   const selectedTab = useMemo(() => {
     switch (pathname) {
       case Route.Dexes:
@@ -58,13 +62,13 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
       fixed
     >
       <HeaderLink href="/pokemons" selected={selectedTab === Tab.Pokemons}>
-        POKEMONS
+        {tr('Pokemons')}
       </HeaderLink>
       <HeaderLink href="/dexes" selected={selectedTab === Tab.Dexes}>
-        DEXES
+        {tr('Dexes')}
       </HeaderLink>
       <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
-        COUNTERS
+        {tr('Counters')}
       </HeaderLink>
     </MantineHeader>
   );

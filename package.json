@@ -8,7 +8,7 @@
     "build": "env-cmd -f .env.production next build",
     "start": "next start",
     "lint": "next lint",
-    "gqlgen:fetch": "env-cmd -f .env.development esm-ts-node src/tools/fetchSchema",
+    "gqlgen:fetch": "env-cmd -f .env.development esm-ts-node src/tools/apolloClient/fetchSchema",
     "gqlgen:generate": "graphql-codegen --config gqlgen.yml",
     "gqlgen": "npm run gqlgen:fetch && npm run gqlgen:generate"
   },

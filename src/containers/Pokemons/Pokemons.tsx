@@ -10,7 +10,10 @@ import { Trash as DeleteIcon } from 'tabler-icons-react';
 
 import { usePokemonsQuery } from '@/graphql/pokemons/Pokemons.generated';
 import { useRemovePokemonsMutation } from '@/graphql/pokemons/DeletePokemon.generated';
+
 import Table from '@/components/Table';
+
+import { useTr } from '@/tools/translator';
 
 const useStyles = createStyles(() => ({
   pokemonsContainer: {
@@ -23,6 +26,8 @@ const useStyles = createStyles(() => ({
 
 const Pokemons = () => {
   const { classes } = useStyles();
+
+  const tr = useTr();
 
   const { data, loading, refetch } = usePokemonsQuery({
     fetchPolicy: 'cache-and-network',
@@ -47,8 +52,8 @@ const Pokemons = () => {
       <Table
         headers={(
           <>
-            <th>ID</th>
-            <th>Name</th>
+            <th>{tr('ID')}</th>
+            <th>{tr('Name')}</th>
             <th align="right" />
           </>
         )}
