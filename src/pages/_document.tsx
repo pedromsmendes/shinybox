@@ -1,4 +1,5 @@
-import NextDocument, { DocumentContext } from 'next/document';
+import type { DocumentContext } from 'next/document';
+import NextDocument from 'next/document';
 import { ServerStyles, createStylesServer } from '@mantine/next';
 
 const stylesServer = createStylesServer();

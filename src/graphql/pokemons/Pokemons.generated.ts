@@ -7,7 +7,7 @@ const defaultOptions = {} as const;
 export type PokemonsQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type PokemonsQuery = { pokemons: Array<{ id: number, name: string, dexes: Array<{ id: number, number: number, name: string }> }> };
+export type PokemonsQuery = { pokemons: Array<{ id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> }> };
 
 
 export const PokemonsDocument = gql`

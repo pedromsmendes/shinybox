@@ -23,6 +23,29 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "info",
+          "warn",
+          "error",
+          "trace"
+        ]
+      }
+    ],
+    "no-prototype-builtins": "off",
+    "no-useless-constructor": "off",
+    "no-unused-vars": "off",
+    "semi": "off",
+    "no-plusplus": "off",
+    "no-void": [
+      "error",
+      {
+        "allowAsStatement": true
+      }
+    ],
+    "no-shadow": "off",
     "react/prop-types": 0,
     "react-hooks/exhaustive-deps": "error",
     "react/react-in-jsx-scope": "off",
@@ -52,6 +75,24 @@
           "requireLast": false
         },
         "multilineDetection": "brackets"
+      }
+    ],
+    "@typescript-eslint/semi": [
+      "error"
+    ],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/return-await": "error",
+    "@typescript-eslint/require-await": "error",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksConditionals": true
+      }
+    ],
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      {
+        "ignoreVoid": true
       }
     ]
   }

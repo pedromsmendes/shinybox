@@ -6,7 +6,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { useTr } from '@/tools/translator';
 
-import { DexCreateFormValues } from './DexCreate';
+import type { DexCreateFormValues } from './DexCreate';
 
 const DexCreateForm = () => {
   const { control } = useFormContext<DexCreateFormValues>();

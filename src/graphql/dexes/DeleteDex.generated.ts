@@ -5,7 +5,7 @@ import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@/apolloClient';
 const defaultOptions = {} as const;
 export type RemoveDexesMutationVariables = Types.Exact<{
-  ids: Array<Types.Scalars['Int']> | Types.Scalars['Int'];
+  ids: Array<Types.Scalars['String']> | Types.Scalars['String'];
 }>;
 
 
@@ -13,7 +13,7 @@ export type RemoveDexesMutation = { removeDexes: number };
 
 
 export const RemoveDexesDocument = gql`
-    mutation RemoveDexes($ids: [Int!]!) {
+    mutation RemoveDexes($ids: [String!]!) {
   removeDexes(ids: $ids)
 }
     `;

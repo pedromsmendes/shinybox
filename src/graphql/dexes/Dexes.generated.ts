@@ -7,7 +7,7 @@ const defaultOptions = {} as const;
 export type DexesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type DexesQuery = { dexes: Array<{ id: number, name: string, pokemons: Array<{ id: number, name: string, number: number }> }> };
+export type DexesQuery = { dexes: Array<{ id: string, name: string, pokemons: Array<{ id: string, name: string, number: number }> }> };
 
 
 export const DexesDocument = gql`

@@ -5,7 +5,7 @@ import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@/apolloClient';
 const defaultOptions = {} as const;
 export type RemovePokemonsMutationVariables = Types.Exact<{
-  ids: Array<Types.Scalars['Int']> | Types.Scalars['Int'];
+  ids: Array<Types.Scalars['String']> | Types.Scalars['String'];
 }>;
 
 
@@ -13,7 +13,7 @@ export type RemovePokemonsMutation = { removePokemons: number };
 
 
 export const RemovePokemonsDocument = gql`
-    mutation RemovePokemons($ids: [Int!]!) {
+    mutation RemovePokemons($ids: [String!]!) {
   removePokemons(ids: $ids)
 }
     `;

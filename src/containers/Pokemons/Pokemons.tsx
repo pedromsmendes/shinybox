@@ -35,14 +35,14 @@ const Pokemons = () => {
 
   const [removePokemons] = useRemovePokemonsMutation();
 
-  const handleRemovePokemons = useCallback((id: number) => async () => {
+  const handleRemovePokemons = useCallback((id: string) => async () => {
     await removePokemons({
       variables: {
         ids: [id],
       },
     });
 
-    refetch();
+    void refetch();
   }, [refetch, removePokemons]);
 
   return (

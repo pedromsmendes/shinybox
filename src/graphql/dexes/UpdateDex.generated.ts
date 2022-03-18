@@ -9,7 +9,7 @@ export type UpdateDexMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateDexMutation = { updateDex?: { id: number, name: string, pokemons: Array<{ id: number, number: number, name: string }> } | null };
+export type UpdateDexMutation = { updateDex?: { id: string, name: string, pokemons: Array<{ id: string, number: number, name: string }> } | null };
 
 
 export const UpdateDexDocument = gql`

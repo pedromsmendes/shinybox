@@ -46,7 +46,7 @@ const PokemonCreate = () => {
         data: {
           name: values.name,
           dexes: values.dexes.map((dex) => ({
-            dexId: parseInt(dex.dexId, 10),
+            dexId: dex.dexId,
             name: dex.name,
             number: parseInt(dex.number, 10),
           })),

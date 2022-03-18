@@ -35,14 +35,14 @@ const Dexes = () => {
 
   const [removeDexes] = useRemoveDexesMutation();
 
-  const handleRemoveDexes = useCallback((id: number) => async () => {
+  const handleRemoveDexes = useCallback((id: string) => async () => {
     await removeDexes({
       variables: {
         ids: [id],
       },
     });
 
-    refetch();
+    void refetch();
   }, [refetch, removeDexes]);
 
   return (

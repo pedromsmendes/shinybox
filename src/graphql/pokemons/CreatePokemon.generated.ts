@@ -9,7 +9,7 @@ export type CreatePokemonMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreatePokemonMutation = { createPokemon?: { id: number, name: string, dexes: Array<{ id: number, number: number, name: string }> } | null };
+export type CreatePokemonMutation = { createPokemon?: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } | null };
 
 
 export const CreatePokemonDocument = gql`

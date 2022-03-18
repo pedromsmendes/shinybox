@@ -5,6 +5,10 @@ declare global {
       PORT: string;
       API_URL: string;
       API_GQL_ENDPOINT: string;
+      API_CLIENT_ID: string;
+      API_CLIENT_SECRET: string;
+      REDIS_SESSION_NAME: string;
+      REDIS_URL: string;
     }
   }
 }

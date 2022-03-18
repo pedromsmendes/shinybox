@@ -1,16 +1,20 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import {
+  Button,
   createStyles,
   Header as MantineHeader,
-  HeaderProps as MantineHeaderProps,
+  Modal,
+  type HeaderProps as MantineHeaderProps,
 } from '@mantine/core';
 
 import { Route } from '@/globals';
 
 import { useTr } from '@/tools/translator';
+
+import { useAppSelector } from '@/reduxHooks';
 
 import HeaderLink from './HeaderLink';
 
@@ -34,7 +38,11 @@ type HeaderProps = {
 };
 
 const Header = ({ mantineHeaderProps }: HeaderProps) => {
+  const [loginModal, setLoginModal] = useState(false);
+
   const { theme, classes } = useStyles();
+
+  const loggedIn = useAppSelector((state) => state.session.loggedIn);
 
   const { pathname } = useRouter();
 
@@ -70,6 +78,18 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
       <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
         {tr('Counters')}
       </HeaderLink>
+
+      <Button onClick={() => setLoginModal(true)}>
+        {tr(loggedIn ? 'Logged in' : 'Not logged in')}
+      </Button>
+
+      <Modal
+        opened={loginModal}
+        onClose={() => setLoginModal(false)}
+        title="Login!"
+      >
+
+      </Modal>
     </MantineHeader>
   );
 };

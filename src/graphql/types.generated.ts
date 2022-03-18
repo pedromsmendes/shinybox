@@ -16,7 +16,7 @@ export type Scalars = {
 
 export type Dex = {
   createdAt: Scalars['DateTime'];
-  id: Scalars['Int'];
+  id: Scalars['String'];
   name: Scalars['String'];
   pokemons: Array<PokemonDex>;
   updatedAt: Scalars['DateTime'];
@@ -27,7 +27,7 @@ export type DexCreate = {
 };
 
 export type DexUpdate = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -36,6 +36,7 @@ export type Mutation = {
   createPokemon?: Maybe<Pokemon>;
   removeDexes: Scalars['Int'];
   removePokemons: Scalars['Int'];
+  removeUsers: Scalars['Int'];
   updateDex?: Maybe<Dex>;
   updatePokemon?: Maybe<Pokemon>;
 };
@@ -52,12 +53,17 @@ export type MutationCreatePokemonArgs = {
 
 
 export type MutationRemoveDexesArgs = {
-  ids: Array<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
 };
 
 
 export type MutationRemovePokemonsArgs = {
-  ids: Array<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
+};
+
+
+export type MutationRemoveUsersArgs = {
+  ids: Array<Scalars['String']>;
 };
 
 
@@ -73,7 +79,7 @@ export type MutationUpdatePokemonArgs = {
 export type Pokemon = {
   createdAt: Scalars['DateTime'];
   dexes: Array<PokemonDex>;
-  id: Scalars['Int'];
+  id: Scalars['String'];
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
@@ -86,48 +92,107 @@ export type PokemonCreate = {
 export type PokemonDex = {
   createdAt: Scalars['DateTime'];
   dex: Dex;
-  dexId: Scalars['Int'];
-  id: Scalars['Int'];
+  dexId: Scalars['String'];
+  id: Scalars['String'];
   name: Scalars['String'];
   number: Scalars['Int'];
   pokemon: Pokemon;
-  pokemonId: Scalars['Int'];
+  pokemonId: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type PokemonDexCreate = {
-  dexId: Scalars['Int'];
+  dexId: Scalars['String'];
   name: Scalars['String'];
   number: Scalars['Int'];
 };
 
 export type PokemonDexUpdate = {
-  dexId?: InputMaybe<Scalars['Int']>;
+  dexId?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   number?: InputMaybe<Scalars['Int']>;
 };
 
 export type PokemonUpdate = {
   dexes?: InputMaybe<Array<PokemonDexCreate>>;
-  id: Scalars['Int'];
+  id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
   dex?: Maybe<Dex>;
   dexes: Array<Dex>;
+  me?: Maybe<User>;
   pokemon?: Maybe<Pokemon>;
   pokemons: Array<Pokemon>;
+  user?: Maybe<User>;
+  users: Array<User>;
 };
 
 
 export type QueryDexArgs = {
-  id: Scalars['Float'];
+  id: Scalars['String'];
 };
 
 
 export type QueryPokemonArgs = {
-  id: Scalars['Float'];
+  id: Scalars['String'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['String'];
+};
+
+export type Role = {
+  code: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  isAdmin: Scalars['Boolean'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type RoleCreate = {
+  code: Scalars['String'];
+  isAdmin?: InputMaybe<Scalars['Boolean']>;
+  name: Scalars['String'];
+};
+
+export type RoleUpdate = {
+  code?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  isAdmin?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type User = {
+  avatar?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  password: Scalars['String'];
+  role: Role;
+  roleId: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type UserCreate = {
+  avatar?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  roleId: Scalars['String'];
+};
+
+export type UserUpdate = {
+  avatar?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  roleId?: InputMaybe<Scalars['String']>;
 };
 
 export const GQLOperations = {

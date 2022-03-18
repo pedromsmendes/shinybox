@@ -17,7 +17,7 @@ import Table from '@/components/Table';
 
 import { useTr } from '@/tools/translator';
 
-import { PokemonCreateFormValues } from './PokemonCreate';
+import type { PokemonCreateFormValues } from './PokemonCreate';
 
 const PokemonCreateForm = () => {
   const { control, setValue } = useFormContext<PokemonCreateFormValues>();
