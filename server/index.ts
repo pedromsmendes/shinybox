@@ -10,11 +10,11 @@ import login from './login';
 import logout from './logout';
 import refresh from './refresh';
 
-import type { SessionTokenInfo } from './types/SessionToken';
+import type { TokenInfo } from './types';
 
 declare module 'express-session' {
   interface SessionData {
-    tokenInfo: SessionTokenInfo;
+    tokenInfo: TokenInfo;
   }
 }
 
@@ -26,7 +26,6 @@ const server = async () => {
 
   const expressServer = express();
 
-  // https://www.npmjs.com/package/express-session
   const sessionOpts: SessionOptions = {
     secret: API_CLIENT_SECRET,
     resave: false,

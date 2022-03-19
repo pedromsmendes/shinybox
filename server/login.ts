@@ -3,6 +3,8 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { API_CLIENT_ID, API_CLIENT_SECRET, API_URL } from '@/globals';
 
+import type { GrantReturn } from './types';
+
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const response = await fetch(`${API_URL}/auth/grant`, {
@@ -20,21 +22,21 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       }),
     });
 
-    const parsedRes = await response.json();
+    const parsedRes: GrantReturn = await response.json();
 
-    if (parsedRes.error) {
-      res.status(403).json(parsedRes);
-      return;
+    if (parsedRes.errors?.length) {
+      return res.status(403).json(parsedRes);
     }
 
-    req.session!.tokenInfo = parsedRes.data;
+    if (parsedRes.data) {
+      req.session.tokenInfo = parsedRes.data;
 
-    if (req.body.rememberMe) {
-      req.session!.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+      if (req.body.rememberMe) {
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+      }
     }
 
-    res.status(200).json(parsedRes);
-    return;
+    return res.status(200).json(parsedRes);
   } catch (ex) {
     console.trace('-- LOGIN exception --\n', ex);
 

@@ -2,12 +2,9 @@ import fetch from 'node-fetch';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PORT } from '@/globals';
 
-import type { LoginData, LoginError } from './session';
+import type { TokenInfo, GrantReturn } from '@/server/types';
 
-export type LoginReturn = {
-  data: LoginData;
-  error: LoginError[];
-};
+import type { LoginError } from './session';
 
 export type DoLoginArgs = {
   email: string;
@@ -15,7 +12,7 @@ export type DoLoginArgs = {
   rememberMe: boolean;
 };
 
-export const doLogin = createAsyncThunk<LoginReturn, DoLoginArgs, { rejectValue: LoginError[] }>(
+export const doLogin = createAsyncThunk<TokenInfo | null, DoLoginArgs, { rejectValue: LoginError[] }>(
   'session/doLogin',
   async (loginArgs, thunkApi) => {
     const { email, password, rememberMe } = loginArgs;
@@ -33,12 +30,12 @@ export const doLogin = createAsyncThunk<LoginReturn, DoLoginArgs, { rejectValue:
       }),
     });
 
-    const parsedRes = await response.json();
+    const parsedRes: GrantReturn = await response.json();
 
-    if (!parsedRes.error.length) {
-      return parsedRes;
+    if (!parsedRes.errors.length) {
+      return parsedRes.data;
     }
 
-    return thunkApi.rejectWithValue(parsedRes.error);
+    return thunkApi.rejectWithValue(parsedRes.errors);
   },
 );

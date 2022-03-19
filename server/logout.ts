@@ -2,9 +2,11 @@ import type { Request, Response, NextFunction } from 'express';
 
 import { API_CLIENT_ID, API_CLIENT_SECRET, API_URL } from '@/globals';
 
+import type { LogoutReturn } from './types';
+
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await fetch(`${API_URL}/auth/logout`, {
+    const response = await fetch(`${API_URL}/auth/logout`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -18,8 +20,18 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
       }),
     });
 
-    delete req.session!.tokenInfo;
-    res.status(200).send();
+    const parsedRes: LogoutReturn = await response.json();
+
+    if (parsedRes.errors?.length) {
+      return res.status(403).json(parsedRes);
+    }
+
+    if (!parsedRes.sucess) {
+      return res.status(403).json(parsedRes);
+    }
+
+    delete req.session.tokenInfo;
+    return res.status(200).json(parsedRes);
   } catch (ex) {
     console.trace('-- LOGOUT exception --\n', ex);
 

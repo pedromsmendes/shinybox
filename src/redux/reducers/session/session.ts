@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { setInLocal, setInSession } from '@/tools/storage';
+import { removeFromLocal, removeFromSession, setInLocal, setInSession } from '@/tools/storage';
 
 import { doLogin } from './doLogin';
 import { doLogout } from './doLogout';
@@ -10,20 +10,12 @@ export type LoginError = {
   msg: string;
 };
 
-export type LoginData = {
-  accessToken: string;
-  accessTokenExpiracy: string;
-  refreshToken: string;
-  refreshTokenExpiracy: string;
-  errorDescription: string;
-};
-
 type SessionType = {
   loggedIn: boolean;
   loginErrors: LoginError[];
 };
 
-const sessionInitialState: SessionType = {
+export const sessionInitialState: SessionType = {
   loggedIn: false,
   loginErrors: [],
 };
@@ -35,20 +27,22 @@ const sessionSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(doLogin.fulfilled, (state, { payload, meta: { arg } }) => {
       const { rememberMe } = arg;
-      if (rememberMe) {
-        setInLocal('accessToken', payload.data.accessToken);
-        setInLocal('accessTokenExpiracy', payload.data.accessTokenExpiracy);
-        setInLocal('refreshToken', payload.data.refreshToken);
-        setInLocal('refreshTokenExpiracy', payload.data.refreshTokenExpiracy);
+      if (payload) {
+        if (rememberMe) {
+          setInLocal('accessToken', payload.accessToken);
+          setInLocal('accessTokenExpiracy', payload.accessTokenExpiracy);
+          setInLocal('refreshToken', payload.refreshToken);
+          setInLocal('refreshTokenExpiracy', payload.refreshTokenExpiracy);
+        }
+
+        setInSession('accessToken', payload.accessToken);
+        setInSession('accessTokenExpiracy', payload.accessTokenExpiracy);
+        setInSession('refreshToken', payload.refreshToken);
+        setInSession('refreshTokenExpiracy', payload.refreshTokenExpiracy);
+
+        state.loggedIn = true;
+        state.loginErrors = [];
       }
-
-      setInSession('accessToken', payload.data.accessToken);
-      setInSession('accessTokenExpiracy', payload.data.accessTokenExpiracy);
-      setInSession('refreshToken', payload.data.refreshToken);
-      setInSession('refreshTokenExpiracy', payload.data.refreshTokenExpiracy);
-
-      state.loggedIn = true;
-      state.loginErrors = [];
     });
     builder.addCase(doLogin.rejected, (state, action) => {
       if (action.payload?.length) {
@@ -58,15 +52,15 @@ const sessionSlice = createSlice({
       state.loggedIn = false;
     });
     builder.addCase(doLogout.fulfilled, (state) => {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('accessTokenExpiracy');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('refreshTokenExpiracy');
+      removeFromLocal('accessToken');
+      removeFromLocal('accessTokenExpiracy');
+      removeFromLocal('refreshToken');
+      removeFromLocal('refreshTokenExpiracy');
 
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('accessTokenExpiracy');
-      sessionStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('refreshTokenExpiracy');
+      removeFromSession('accessToken');
+      removeFromSession('accessTokenExpiracy');
+      removeFromSession('refreshToken');
+      removeFromSession('refreshTokenExpiracy');
 
       state.loggedIn = false;
       state.loginErrors = [];

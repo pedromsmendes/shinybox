@@ -1,6 +1,9 @@
+import fetch from 'node-fetch';
 import type { Request, Response, NextFunction } from 'express';
 
 import { API_CLIENT_ID, API_CLIENT_SECRET, API_URL } from '@/globals';
+
+import type { GrantReturn } from './types';
 
 const refresh = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -18,13 +21,15 @@ const refresh = async (req: Request, res: Response, next: NextFunction) => {
       }),
     });
 
-    const parsedRes = await response.json();
+    const parsedRes: GrantReturn = await response.json();
 
-    if (parsedRes.error) {
+    if (parsedRes.errors?.length) {
       return res.status(403).json(parsedRes);
     }
 
-    req.session!.tokenInfo = parsedRes.data;
+    if (parsedRes.data) {
+      req.session.tokenInfo = parsedRes.data;
+    }
 
     return res.status(200).json(parsedRes);
   } catch (ex) {

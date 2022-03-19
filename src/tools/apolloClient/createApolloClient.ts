@@ -2,10 +2,11 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { RetryLink } from '@apollo/client/link/retry';
 import { onError } from '@apollo/client/link/error';
+import { createUploadLink } from 'apollo-upload-client';
 
 import { API_GQL_ENDPOINT, API_URL, IN_DEV } from '@/globals';
 
-import { getFromLocal, setInLocal } from '../storage';
+import { getFromLocal, removeFromLocal, setInLocal } from '../storage';
 
 const createApolloClient = () => {
   const middlewareLink = setContext(async () => {
@@ -34,7 +35,6 @@ const createApolloClient = () => {
         });
 
         const refreshResponse = await fetchResponse.json();
-        console.log('🚀 ~ middlewareLink ~ refreshResponse', refreshResponse);
 
         if (!refreshResponse?.data) {
           throw new Error('Invalid refresh response!');
@@ -50,9 +50,19 @@ const createApolloClient = () => {
         accessToken = tokenInfo.accessToken;
       } catch (ex) {
         accessToken = null;
+
+        removeFromLocal('accessToken');
+        removeFromLocal('accessTokenExpiracy');
+        removeFromLocal('refreshToken');
+        removeFromLocal('refreshTokenExpiracy');
       }
     } else if (!isRefreshValid) {
       accessToken = null;
+
+      removeFromLocal('accessToken');
+      removeFromLocal('accessTokenExpiracy');
+      removeFromLocal('refreshToken');
+      removeFromLocal('refreshTokenExpiracy');
     }
 
     return {
@@ -63,6 +73,8 @@ const createApolloClient = () => {
   });
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
+    console.log('🚀 ~ errorLink ~ networkError', networkError);
+    console.log('🚀 ~ errorLink ~ graphQLErrors', graphQLErrors);
     if (networkError && 'statusCode' in networkError && 'bodyText' in networkError && networkError.statusCode > 399) {
       // maybe be more solid someday
       console.log('Network error from API', networkError.bodyText); // eslint-disable-line no-console
@@ -81,13 +93,21 @@ const createApolloClient = () => {
     attempts: { max: 6 },
   });
 
-  const link = retryLink.concat(errorLink.concat(middlewareLink));
+  const uploadLink = createUploadLink({ uri: `${API_URL}${API_GQL_ENDPOINT}` });
+
+  const link = retryLink.concat(
+    errorLink.concat(
+      middlewareLink.concat(
+        uploadLink,
+      ),
+    ),
+  );
 
   const apolloClient = new ApolloClient({
     uri: `${API_URL}${API_GQL_ENDPOINT}`,
     cache: new InMemoryCache(),
-    link,
     connectToDevTools: IN_DEV,
+    link,
   });
 
   return apolloClient;

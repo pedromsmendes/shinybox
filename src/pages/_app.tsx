@@ -14,6 +14,7 @@ import type { RootState } from '@/reduxTypes';
 import initStore from '@/redux/initStore';
 
 import createApolloClient from '@/tools/apolloClient/createApolloClient';
+import { reducersInitialState } from '@/redux/reducers';
 
 const MyApp = (props: AppProps & { initialState: RootState }) => {
   const {
@@ -64,12 +65,12 @@ const MyApp = (props: AppProps & { initialState: RootState }) => {
 
 MyApp.getInitialProps = async (appContext: AppContext) => {
   // Default state for our app context
-  const initialState = { session: { loggedIn: false } };
+  const initialState = JSON.parse(JSON.stringify(reducersInitialState));
 
   // If we are at the server, check if we have a session, if we do, set logged in
   // and set the tokens in the state so that we can later set them in the client
-  const session = (appContext.ctx?.req as Request).session;
-  if (appContext.ctx.req && session) {
+  const session = (appContext.ctx?.req as Request)?.session;
+  if (session) {
     const { tokenInfo } = session!;
 
     if (tokenInfo?.accessToken) {
@@ -80,7 +81,7 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
 
-  return { ...appProps, initialState, tokenInfo: true };
+  return { ...appProps, initialState };
 };
 
 export default MyApp;
