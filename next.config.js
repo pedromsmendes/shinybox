@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
+    PORT: process.env.PORT,
     API_URL: process.env.API_URL,
     API_GQL_ENDPOINT: process.env.API_GQL_ENDPOINT,
   },

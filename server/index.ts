@@ -3,6 +3,7 @@ import express from 'express';
 import session, { type SessionOptions } from 'express-session';
 import redisConnect from 'connect-redis';
 import { createClient } from 'redis';
+import bodyParser from 'body-parser';
 
 import { API_CLIENT_SECRET, IN_DEV, IN_PROD, LOGIN_AUTH_PATH, LOGOUT_AUTH_PATH, PORT, REDIS_SESSION_NAME, REDIS_URL, REFRESH_AUTH_PATH } from '@/globals';
 import login from './login';
@@ -53,9 +54,9 @@ const server = async () => {
 
   // Handle authentication
   /* eslint-disable @typescript-eslint/no-misused-promises */
-  expressServer.post(LOGIN_AUTH_PATH, login);
-  expressServer.post(LOGOUT_AUTH_PATH, logout);
-  expressServer.post(REFRESH_AUTH_PATH, refresh);
+  expressServer.post(LOGIN_AUTH_PATH, bodyParser.json(), login);
+  expressServer.post(LOGOUT_AUTH_PATH, bodyParser.json(), logout);
+  expressServer.post(REFRESH_AUTH_PATH, bodyParser.json(), refresh);
   /* eslint-enable @typescript-eslint/no-misused-promises */
 
   // Send all other paths to nextjs

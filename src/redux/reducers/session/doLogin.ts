@@ -2,12 +2,11 @@ import fetch from 'node-fetch';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PORT } from '@/globals';
 
-type DoLoginReturn = {
-  accessToken: string;
-  accessTokenExpiracy: string;
-  refreshToken: string;
-  refreshTokenExpiracy: string;
-  errorDescription: string;
+import type { LoginData, LoginError } from './session';
+
+export type LoginReturn = {
+  data: LoginData;
+  error: LoginError[];
 };
 
 export type DoLoginArgs = {
@@ -16,13 +15,15 @@ export type DoLoginArgs = {
   rememberMe: boolean;
 };
 
-export const doLogin = createAsyncThunk<DoLoginReturn, DoLoginArgs, { rejectValue: string }>(
+export const doLogin = createAsyncThunk<LoginReturn, DoLoginArgs, { rejectValue: LoginError[] }>(
   'session/doLogin',
-  async ({ email, password, rememberMe }, thunkApi) => {
+  async (loginArgs, thunkApi) => {
+    const { email, password, rememberMe } = loginArgs;
+
     const response = await fetch(`http://localhost:${PORT}/auth/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         Accept: 'application/json',
       },
       body: JSON.stringify({
@@ -33,12 +34,11 @@ export const doLogin = createAsyncThunk<DoLoginReturn, DoLoginArgs, { rejectValu
     });
 
     const parsedRes = await response.json();
-    console.log('🚀 ~ parsedRes', parsedRes);
 
-    if (!parsedRes.error) {
+    if (!parsedRes.error.length) {
       return parsedRes;
     }
 
-    return thunkApi.rejectWithValue(parsedRes.errorDescription);
+    return thunkApi.rejectWithValue(parsedRes.error);
   },
 );

@@ -1,30 +1,30 @@
-import type { AppProps } from 'next/app';
+import type { AppContext, AppProps } from 'next/app';
+import App from 'next/app';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import type { Request } from 'express';
 
 import { MantineProvider } from '@mantine/core';
 
 import Layout from '@/components/Layout';
 import { TranslatorProvider } from '@/tools/translator';
 
+import type { RootState } from '@/reduxTypes';
 import initStore from '@/redux/initStore';
 
-import { API_GQL_ENDPOINT, API_URL, IN_DEV } from '@/globals';
+import createApolloClient from '@/tools/apolloClient/createApolloClient';
 
-const MyApp = (props: AppProps) => {
+const MyApp = (props: AppProps & { initialState: RootState }) => {
   const {
     Component,
+    initialState,
     pageProps,
   } = props;
 
-  const store = initStore();
+  const store = initStore(initialState);
 
-  const apolloClient = new ApolloClient({
-    uri: `${API_URL}${API_GQL_ENDPOINT}`,
-    cache: new InMemoryCache(),
-    connectToDevTools: IN_DEV,
-  });
+  const apolloClient = createApolloClient();
 
   return (
     <>
@@ -60,6 +60,27 @@ const MyApp = (props: AppProps) => {
       </Provider>
     </>
   );
+};
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  // Default state for our app context
+  const initialState = { session: { loggedIn: false } };
+
+  // If we are at the server, check if we have a session, if we do, set logged in
+  // and set the tokens in the state so that we can later set them in the client
+  const session = (appContext.ctx?.req as Request).session;
+  if (appContext.ctx.req && session) {
+    const { tokenInfo } = session!;
+
+    if (tokenInfo?.accessToken) {
+      initialState.session.loggedIn = true;
+    }
+  }
+
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);
+
+  return { ...appProps, initialState, tokenInfo: true };
 };
 
 export default MyApp;

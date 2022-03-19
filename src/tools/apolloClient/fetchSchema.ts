@@ -125,6 +125,6 @@ const fetchSchema = async () => {
   writeFileSync('gqlSchema.json', JSON.stringify(res, null, 2));
 };
 
-(async () => {
+void (async () => {
   await fetchSchema();
 })();
