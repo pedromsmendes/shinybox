@@ -5,6 +5,7 @@ import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@/apolloClient';
 const defaultOptions = {} as const;
 export type UpdatePokemonMutationVariables = Types.Exact<{
+  id: Types.Scalars['String'];
   data: Types.PokemonUpdate;
 }>;
 
@@ -13,8 +14,8 @@ export type UpdatePokemonMutation = { updatePokemon?: { id: string, name: string
 
 
 export const UpdatePokemonDocument = gql`
-    mutation UpdatePokemon($data: PokemonUpdate!) {
-  updatePokemon(data: $data) {
+    mutation UpdatePokemon($id: String!, $data: PokemonUpdate!) {
+  updatePokemon(id: $id, data: $data) {
     id
     name
     dexes {
@@ -40,6 +41,7 @@ export type UpdatePokemonMutationFn = Apollo.MutationFunction<UpdatePokemonMutat
  * @example
  * const [updatePokemonMutation, { data, loading, error }] = useUpdatePokemonMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      data: // value for 'data'
  *   },
  * });

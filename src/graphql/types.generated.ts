@@ -27,18 +27,19 @@ export type DexCreate = {
 };
 
 export type DexUpdate = {
-  id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
   createDex?: Maybe<Dex>;
   createPokemon?: Maybe<Pokemon>;
+  createUser?: Maybe<User>;
   removeDexes: Scalars['Int'];
   removePokemons: Scalars['Int'];
   removeUsers: Scalars['Int'];
   updateDex?: Maybe<Dex>;
   updatePokemon?: Maybe<Pokemon>;
+  updateUser?: Maybe<User>;
 };
 
 
@@ -49,6 +50,11 @@ export type MutationCreateDexArgs = {
 
 export type MutationCreatePokemonArgs = {
   data: PokemonCreate;
+};
+
+
+export type MutationCreateUserArgs = {
+  data: UserCreate;
 };
 
 
@@ -69,11 +75,19 @@ export type MutationRemoveUsersArgs = {
 
 export type MutationUpdateDexArgs = {
   data: DexUpdate;
+  id: Scalars['String'];
 };
 
 
 export type MutationUpdatePokemonArgs = {
   data: PokemonUpdate;
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  data: UserUpdate;
+  id: Scalars['String'];
 };
 
 export type Pokemon = {
@@ -115,7 +129,6 @@ export type PokemonDexUpdate = {
 
 export type PokemonUpdate = {
   dexes?: InputMaybe<Array<PokemonDexCreate>>;
-  id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
 };
 
@@ -189,7 +202,6 @@ export type UserCreate = {
 export type UserUpdate = {
   avatar?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   roleId?: InputMaybe<Scalars['String']>;
@@ -198,7 +210,10 @@ export type UserUpdate = {
 export const GQLOperations = {
   Query: {
     Dexes: 'Dexes',
-    Pokemons: 'Pokemons'
+    Pokemons: 'Pokemons',
+    Me: 'Me',
+    User: 'User',
+    Users: 'Users'
   },
   Mutation: {
     CreateDex: 'CreateDex',
@@ -206,6 +221,8 @@ export const GQLOperations = {
     UpdateDex: 'UpdateDex',
     CreatePokemon: 'CreatePokemon',
     RemovePokemons: 'RemovePokemons',
-    UpdatePokemon: 'UpdatePokemon'
+    UpdatePokemon: 'UpdatePokemon',
+    CreateUser: 'CreateUser',
+    UpdateUser: 'UpdateUser'
   }
 }

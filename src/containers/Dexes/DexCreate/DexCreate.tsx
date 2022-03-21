@@ -1,12 +1,14 @@
 import React, { useCallback } from 'react';
 
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { Button, createStyles, Group } from '@mantine/core';
 
 import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
 
 import { useTr } from '@/tools/translator';
+
+import Form from '@/components/Form';
 
 import DexCreateForm from './DexCreateForm';
 
@@ -36,32 +38,29 @@ const DexCreate = () => {
   const [createDex] = useCreateDexMutation();
 
   const handleSubmit = useCallback(async (values: DexCreateFormValues) => {
-    const res = await createDex({
+    await createDex({
       variables: {
         data: {
           name: values.name,
         },
       },
     });
-    console.log('🚀 ~ handleSubmit ~ res', res);
   }, [createDex]);
 
   return (
     <div>
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
-          <DexCreateForm />
+      <Form {...form} onSubmit={handleSubmit} className={classes.form}>
+        <Group position="right">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            {tr('Create')}
+          </Button>
+        </Group>
 
-          <Group position="right">
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-            >
-              {tr('Create')}
-            </Button>
-          </Group>
-        </form>
-      </FormProvider>
+        <DexCreateForm />
+      </Form>
     </div>
   );
 };

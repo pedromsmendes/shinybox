@@ -763,20 +763,6 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "name",
               "description": null,
               "type": {
@@ -881,20 +867,6 @@
           "description": null,
           "fields": null,
           "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
             {
               "name": "name",
               "description": null,
@@ -1093,20 +1065,6 @@
           "description": null,
           "fields": null,
           "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
             {
               "name": "email",
               "description": null,
@@ -1375,6 +1333,20 @@
               "description": null,
               "args": [
                 {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "data",
                   "description": null,
                   "type": {
@@ -1468,6 +1440,20 @@
               "description": null,
               "args": [
                 {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "data",
                   "description": null,
                   "type": {
@@ -1525,6 +1511,74 @@
                   "name": "Int",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createUser",
+              "description": null,
+              "args": [
+                {
+                  "name": "data",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "UserCreate",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "updateUser",
+              "description": null,
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "data",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "UserUpdate",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

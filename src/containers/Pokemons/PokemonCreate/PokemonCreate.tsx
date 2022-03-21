@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { Button, createStyles, Group } from '@mantine/core';
 
@@ -8,6 +8,7 @@ import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.gener
 import { useTr } from '@/tools/translator';
 
 import PokemonCreateForm from './PokemonCreateForm';
+import Form from '@/components/Form';
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -58,20 +59,18 @@ const PokemonCreate = () => {
 
   return (
     <div>
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className={classes.form}>
-          <Group position="right">
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-            >
-              {tr('Create')}
-            </Button>
-          </Group>
+      <Form {...form} onSubmit={handleSubmit} className={classes.form}>
+        <Group position="right">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            {tr('Create')}
+          </Button>
+        </Group>
 
-          <PokemonCreateForm />
-        </form>
-      </FormProvider>
+        <PokemonCreateForm />
+      </Form>
     </div>
   );
 };

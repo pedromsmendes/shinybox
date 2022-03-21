@@ -2,22 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { removeFromLocal, removeFromSession, setInLocal, setInSession } from '@/tools/storage';
 
-import { doLogin } from './doLogin';
-import { doLogout } from './doLogout';
-
-export type LoginError = {
-  code: string;
-  msg: string;
-};
-
-type SessionType = {
-  loggedIn: boolean;
-  loginErrors: LoginError[];
-};
+import { doLogin, doLogout } from './extraReducers';
+import type { SessionType } from './session.types';
 
 export const sessionInitialState: SessionType = {
   loggedIn: false,
   loginErrors: [],
+  user: null,
 };
 
 const sessionSlice = createSlice({
@@ -71,5 +62,7 @@ const sessionSlice = createSlice({
     });
   },
 });
+
+export * from './extraReducers';
 
 export default sessionSlice.reducer;

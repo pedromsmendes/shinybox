@@ -40,4 +40,5 @@ export enum Route {
   Dexes = '/dexes',
   Counters = '/counters',
   Pokemons = '/pokemons',
+  Login = '/login',
 }

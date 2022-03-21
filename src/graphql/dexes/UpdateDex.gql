@@ -1,5 +1,5 @@
-mutation UpdateDex($data: DexUpdate!){
-  updateDex(data: $data) {
+mutation UpdateDex($id: String!, $data: DexUpdate!){
+  updateDex(id: $id, data: $data) {
     id
     name
     pokemons {

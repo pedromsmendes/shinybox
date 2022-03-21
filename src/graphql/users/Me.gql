@@ -1,0 +1,14 @@
+query Me{
+  me {
+    id
+    email
+    name
+    avatar
+    role {
+      id
+      name
+      code
+      isAdmin
+    }
+  }
+}

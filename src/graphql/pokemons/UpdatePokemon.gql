@@ -1,5 +1,5 @@
-mutation UpdatePokemon($data: PokemonUpdate!){
-  updatePokemon(data: $data) {
+mutation UpdatePokemon($id: String!, $data: PokemonUpdate!){
+  updatePokemon(id: $id, data: $data) {
     id
     name
     dexes {

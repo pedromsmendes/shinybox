@@ -11,8 +11,9 @@ import {
   Collapse,
 } from '@mantine/core';
 
+import { useLoginErrors } from '@/reduxHooks';
+
 import { useTr } from '@/tools/translator';
-import { useAppSelector } from '@/reduxHooks';
 
 const useStyles = createStyles((theme) => ({
   rememberMeGroup: {
@@ -34,7 +35,7 @@ export type LoginFormValues = {
 };
 
 const LoginForm = () => {
-  const loginErrors = useAppSelector((state) => state.session.loginErrors);
+  const loginErrors = useLoginErrors();
 
   const tr = useTr();
 

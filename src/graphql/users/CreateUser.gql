@@ -1,0 +1,15 @@
+mutation CreateUser($data: UserCreate!){
+  createUser(data: $data) {
+    id
+    email
+    password
+    name
+    avatar
+    role {
+      id
+      name
+      code
+      isAdmin
+    }
+  }
+}

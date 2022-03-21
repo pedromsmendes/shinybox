@@ -3,10 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { PORT } from '@/globals';
 
 import type { TokenInfo, GrantReturn } from '@/server/types';
+import type { LoginError } from './session.types';
 
-import type { LoginError } from './session';
-
-export type DoLoginArgs = {
+type DoLoginArgs = {
   email: string;
   password: string;
   rememberMe: boolean;
@@ -37,5 +36,18 @@ export const doLogin = createAsyncThunk<TokenInfo | null, DoLoginArgs, { rejectV
     }
 
     return thunkApi.rejectWithValue(parsedRes.errors);
+  },
+);
+
+export const doLogout = createAsyncThunk(
+  'session/doLogout',
+  async () => {
+    await fetch(`http://localhost:${PORT}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+      },
+    });
   },
 );

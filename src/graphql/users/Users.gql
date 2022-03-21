@@ -1,0 +1,14 @@
+query Users {
+  users {
+    id
+    email
+    name
+    avatar
+    role {
+      id
+      name
+      code
+      isAdmin
+    }
+  }
+}

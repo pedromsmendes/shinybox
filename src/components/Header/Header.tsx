@@ -1,33 +1,37 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
 
 import {
-  Button,
   createStyles,
-  Group,
+  Divider,
   Header as MantineHeader,
-  Modal,
+  Menu,
   type HeaderProps as MantineHeaderProps,
 } from '@mantine/core';
 
+import { User as UserIcon } from 'tabler-icons-react';
+
 import { Route } from '@/globals';
+
+import { useLoggedIn } from '@/reduxHooks';
 
 import { useTr } from '@/tools/translator';
 
-import { useAppDispatch, useAppSelector } from '@/reduxHooks';
-
 import HeaderLink from './HeaderLink';
-import { FormProvider, useForm } from 'react-hook-form';
-import LoginForm, { type LoginFormValues } from '../LoginForm';
-import { doLogin } from '@/redux/reducers/session/doLogin';
+import ActionsMenu from '../ActionsMenu';
 
 const useStyles = createStyles((theme) => ({
   header: {
     marginLeft: theme.other.navbarWidth,
+    padding: 0,
     display: 'flex',
     alignItems: 'center',
-    padding: 0,
+    justifyContent: 'space-between',
+  },
+  navigation: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 }));
 
@@ -42,42 +46,18 @@ type HeaderProps = {
 };
 
 const Header = ({ mantineHeaderProps }: HeaderProps) => {
-  const [loginModal, setLoginModal] = useState(false);
-  const form = useForm<LoginFormValues>({
-    defaultValues: {
-      email: '',
-      password: '',
-      rememberMe: false,
-    },
-  });
-
   const { theme, classes } = useStyles();
-  const dispatch = useAppDispatch();
-
-  const loggedIn = useAppSelector((state) => state.session.loggedIn);
-
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
 
   const tr = useTr();
 
-  const handleCloseModal = useCallback(() => {
-    // if (!form.formState.isSubmitting) {
-    setLoginModal(false);
-    // }
-  }, []);
+  const loggedIn = useLoggedIn();
 
-  const onSubmit = useCallback(async (values: LoginFormValues) => {
-    const res = await dispatch(doLogin({
-      email: values.email,
-      password: values.password,
-      rememberMe: values.rememberMe,
-    }));
-
-    console.log('🚀 ~ onSubmit ~ res.meta.requestStatus', res.meta.requestStatus);
-    if (res.meta.requestStatus === 'fulfilled') {
-      handleCloseModal();
+  useEffect(() => {
+    if (loggedIn) {
+      void push(Route.Login);
     }
-  }, [dispatch, handleCloseModal]);
+  }, [loggedIn, push]);
 
   const selectedTab = useMemo(() => {
     switch (pathname) {
@@ -100,44 +80,28 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
       className={classes.header}
       fixed
     >
-      <HeaderLink href="/pokemons" selected={selectedTab === Tab.Pokemons}>
-        {tr('Pokemons')}
-      </HeaderLink>
-      <HeaderLink href="/dexes" selected={selectedTab === Tab.Dexes}>
-        {tr('Dexes')}
-      </HeaderLink>
-      <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
-        {tr('Counters')}
-      </HeaderLink>
+      <div className={classes.navigation}>
+        <HeaderLink href="/pokemons" selected={selectedTab === Tab.Pokemons}>
+          {tr('Pokemons')}
+        </HeaderLink>
+        <HeaderLink href="/dexes" selected={selectedTab === Tab.Dexes}>
+          {tr('Dexes')}
+        </HeaderLink>
+        <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
+          {tr('Counters')}
+        </HeaderLink>
+      </div>
 
-      <Button onClick={() => setLoginModal(true)}>
-        {tr(loggedIn ? 'Logged in' : 'Not logged in')}
-      </Button>
+      <ActionsMenu buttonContent={<UserIcon />}>
+        <Menu.Label>Application</Menu.Label>
+        <Menu.Item icon={<UserIcon />}>Settings</Menu.Item>
+        <Menu.Item>Messages</Menu.Item>
+        <Menu.Item>Gallery</Menu.Item>
 
-      <Modal
-        opened={loginModal}
-        onClose={handleCloseModal}
-        closeOnClickOutside={!form.formState.isSubmitting}
-        closeOnEscape={!form.formState.isSubmitting}
-        withCloseButton={!form.formState.isSubmitting}
-        title="Login"
-      >
-        <FormProvider  {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <LoginForm />
+        <Divider />
 
-            <Group position="right">
-              <Button
-                disabled={form.formState.isSubmitting}
-                loading={form.formState.isSubmitting}
-                type="submit"
-              >
-                {tr('Login')}
-              </Button>
-            </Group>
-          </form>
-        </FormProvider>
-      </Modal>
+        <Menu.Label>Danger zone</Menu.Label>
+      </ActionsMenu>
     </MantineHeader>
   );
 };

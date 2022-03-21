@@ -75,6 +75,8 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
     if (tokenInfo?.accessToken) {
       initialState.session.loggedIn = true;
+
+      // maybe query the user and save it in redux
     }
   }
 

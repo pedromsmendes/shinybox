@@ -73,17 +73,13 @@ const createApolloClient = () => {
   });
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
-    console.log('🚀 ~ errorLink ~ networkError', networkError);
-    console.log('🚀 ~ errorLink ~ graphQLErrors', graphQLErrors);
     if (networkError && 'statusCode' in networkError && 'bodyText' in networkError && networkError.statusCode > 399) {
-      // maybe be more solid someday
-      console.log('Network error from API', networkError.bodyText); // eslint-disable-line no-console
+      console.error('Network error from API', networkError.bodyText);
     }
 
     if (graphQLErrors) {
-      // eslint-disable-next-line no-console
-      graphQLErrors.map(({ message, locations, path }) => console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      graphQLErrors.map(({ message, locations, path }) => (
+        console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
       ));
     }
   });
