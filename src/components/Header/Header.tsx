@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 
 import {
+  Button,
   createStyles,
   Divider,
   Header as MantineHeader,
@@ -20,6 +21,7 @@ import { useTr } from '@/tools/translator';
 
 import HeaderLink from './HeaderLink';
 import ActionsMenu from '../ActionsMenu';
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -52,6 +54,7 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
   const tr = useTr();
 
   const loggedIn = useLoggedIn();
+  console.log('🚀 ~ Header ~ loggedIn', loggedIn);
 
   useEffect(() => {
     if (loggedIn) {
@@ -87,21 +90,27 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
         <HeaderLink href="/dexes" selected={selectedTab === Tab.Dexes}>
           {tr('Dexes')}
         </HeaderLink>
-        <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
-          {tr('Counters')}
-        </HeaderLink>
+
+        {loggedIn && (
+          <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
+            {tr('Counters')}
+          </HeaderLink>
+        )}
       </div>
 
-      <ActionsMenu buttonContent={<UserIcon />}>
-        <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<UserIcon />}>Settings</Menu.Item>
-        <Menu.Item>Messages</Menu.Item>
-        <Menu.Item>Gallery</Menu.Item>
+      {loggedIn ? (
+        <ActionsMenu buttonContent={<UserIcon />}>
+          <Menu.Item>{tr('Profile')}</Menu.Item>
 
-        <Divider />
+          <Divider />
 
-        <Menu.Label>Danger zone</Menu.Label>
-      </ActionsMenu>
+          <Menu.Item>{tr('Logout')}</Menu.Item>
+        </ActionsMenu>
+      ) : (
+        <Link href={Route.Login} passHref>
+          <Button>{tr('Login')}</Button>
+        </Link>
+      )}
     </MantineHeader>
   );
 };
