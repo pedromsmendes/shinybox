@@ -1,9 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 import { removeFromLocal, removeFromSession, setInLocal, setInSession } from '@/tools/storage';
 
+import type { AppState } from '@/reduxTypes';
+
 import { doLogin, doLogout } from './extraReducers';
-import type { SessionType } from './session.types';
+import type { SessionType, SessionUser } from './session.types';
+
+const hydrate = createAction<AppState>(HYDRATE);
 
 export const sessionInitialState: SessionType = {
   loggedIn: false,
@@ -14,8 +19,21 @@ export const sessionInitialState: SessionType = {
 const sessionSlice = createSlice({
   name: 'session',
   initialState: sessionInitialState,
-  reducers: {},
+  reducers: {
+    setLoggedIn: (state) => {
+      state.loggedIn = true;
+    },
+    setUser: (state, action: PayloadAction<SessionUser>) => {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
+    builder.addCase(hydrate, (state, action) => {
+      return {
+        ...state,
+        ...action.payload[sessionSlice.name],
+      };
+    });
     builder.addCase(doLogin.fulfilled, (state, { payload, meta: { arg } }) => {
       const { rememberMe } = arg;
       if (payload) {
@@ -55,6 +73,7 @@ const sessionSlice = createSlice({
 
       state.loggedIn = false;
       state.loginErrors = [];
+      state.user = null;
     });
     builder.addCase(doLogout.rejected, (state) => {
       state.loggedIn = true;
@@ -63,6 +82,11 @@ const sessionSlice = createSlice({
   },
 });
 
+export const {
+  setLoggedIn,
+  setUser,
+} = sessionSlice.actions;
+
 export * from './extraReducers';
 
-export default sessionSlice.reducer;
+export default sessionSlice;

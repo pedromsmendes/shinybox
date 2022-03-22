@@ -1,29 +1,23 @@
 import type { AppContext, AppProps } from 'next/app';
 import App from 'next/app';
 import Head from 'next/head';
-import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
 import type { Request } from 'express';
 
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 
 import Layout from '@/components/Layout';
 import { TranslatorProvider } from '@/tools/translator';
 
-import type { RootState } from '@/reduxTypes';
-import initStore from '@/redux/initStore';
+import type { AppState } from '@/reduxTypes';
+import { wrapper } from '@/redux/initStore';
+import { setLoggedIn } from '@/redux/reducers/session';
 
 import createApolloClient from '@/tools/apolloClient/createApolloClient';
-import { reducersInitialState } from '@/redux/reducers';
 
-const MyApp = (props: AppProps & { initialState: RootState }) => {
-  const {
-    Component,
-    initialState,
-    pageProps,
-  } = props;
-
-  const store = initStore(initialState);
+const MyApp = (props: AppProps & { initialState: AppState }) => {
+  const { Component, pageProps } = props;
 
   const apolloClient = createApolloClient();
 
@@ -36,54 +30,52 @@ const MyApp = (props: AppProps & { initialState: RootState }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
 
-      <Provider store={store}>
-        <ApolloProvider client={apolloClient}>
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              colorScheme: 'dark',
-              other: {
-                headerHeight: 50,
-                navbarWidth: 50,
-                navbarOpenWidth: 300,
-                footerHeight: 30,
-              },
-            }}
-          >
-            <TranslatorProvider>
+      <ApolloProvider client={apolloClient}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme: 'dark',
+            other: {
+              headerHeight: 50,
+              navbarWidth: 50,
+              navbarOpenWidth: 300,
+              footerHeight: 30,
+            },
+          }}
+        >
+          <TranslatorProvider>
+            <NotificationsProvider>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            </TranslatorProvider>
-          </MantineProvider>
-        </ApolloProvider>
-      </Provider>
+            </NotificationsProvider>
+          </TranslatorProvider>
+        </MantineProvider>
+      </ApolloProvider>
     </>
   );
 };
 
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  // Default state for our app context
-  const initialState = JSON.parse(JSON.stringify(reducersInitialState));
+MyApp.getInitialProps = wrapper
+  .getInitialAppProps((store) => async (appContext: AppContext) => {
+    // If we are at the server, check if we have a session, if we do, set logged in
+    // and set the tokens in the state so that we can later set them in the client
+    const session = (appContext.ctx?.req as Request)?.session;
+    if (session) {
+      const { tokenInfo } = session!;
 
-  // If we are at the server, check if we have a session, if we do, set logged in
-  // and set the tokens in the state so that we can later set them in the client
-  const session = (appContext.ctx?.req as Request)?.session;
-  if (session) {
-    const { tokenInfo } = session!;
+      if (tokenInfo?.accessToken) {
+        store.dispatch(setLoggedIn());
 
-    if (tokenInfo?.accessToken) {
-      initialState.session.loggedIn = true;
-
-      // maybe query the user and save it in redux
+        // maybe query the user and save it in redux
+      }
     }
-  }
 
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);
+    // calls page's `getInitialProps` and fills `appProps.pageProps`
+    const appProps = await App.getInitialProps(appContext);
 
-  return { ...appProps, initialState };
-};
+    return { ...appProps };
+  });
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

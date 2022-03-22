@@ -1,7 +1,7 @@
 import session, { sessionInitialState } from './session';
 
 const reducer = {
-  session,
+  [session.name]: session.reducer,
 };
 
 export const reducersInitialState = {

@@ -5,8 +5,10 @@ export type LoginError = {
   msg: string;
 };
 
+export type SessionUser = NonNullable<UserQuery['user']> | null;
+
 export type SessionType = {
   loggedIn: boolean;
   loginErrors: LoginError[];
-  user: NonNullable<UserQuery['user']> | null;
+  user: SessionUser;
 };
