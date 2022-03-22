@@ -16,6 +16,7 @@ import Form from '@/components/Form';
 import { useTr } from '@/tools/translator';
 
 import ProfileForm, { type ProfileFormValues } from './ProfileForm';
+import { ApolloError } from '@apollo/client';
 
 const Profile = () => {
   const tr = useTr();
@@ -37,25 +38,45 @@ const Profile = () => {
 
   const handleSubmit = useCallback(async (values: ProfileFormValues) => {
     if (user) {
-      const res = await updateUser({
-        variables: {
-          id: user?.id,
-          data: {
-            avatar: values.avatar || null,
-            email: values.email,
-            name: values.name || null,
-            password: values.password || undefined,
+      try {
+        const res = await updateUser({
+          variables: {
+            id: user?.id,
+            data: {
+              avatar: values.avatar || null,
+              email: values.email,
+              name: values.name || null,
+              password: values.password || undefined,
+            },
           },
-        },
-      });
+        });
 
-      if (res.data?.updateUser?.id && !res.errors?.length) {
-        notifications.showNotification({ message: tr('User update successful!'), color: 'green' });
-      } else {
-        notifications.showNotification({ message: tr('User update failed!'), color: 'red' });
+        if (res.data?.updateUser?.id && !res.errors?.length) {
+          notifications.showNotification({ message: tr('User update successful!'), color: 'green' });
+        } else {
+          notifications.showNotification({ message: tr('User update failed!'), color: 'red' });
+        }
+      } catch (ex) {
+        if (ex instanceof ApolloError) {
+          const errors: any[] = [];
+          ex.graphQLErrors.map((gqlError) => {
+            // @ts-ignore
+            errors.push(...(gqlError?.extensions?.validationErrors || []));
+          });
+
+          if (errors.length) {
+            errors.forEach((error) => {
+              if (error.field in values) {
+                form.setError(error.field, {
+                  message: error.msg,
+                });
+              }
+            });
+          }
+        }
       }
     }
-  }, [notifications, tr, updateUser, user]);
+  }, [form, notifications, tr, updateUser, user]);
 
   return (
     <div>

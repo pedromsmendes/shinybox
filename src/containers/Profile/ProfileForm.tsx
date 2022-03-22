@@ -32,6 +32,7 @@ const ProfileForm = () => {
             size="md"
             label={tr('E-mail')}
             placeholder={tr('Eg: mail@mail.com')}
+            error={formState.errors.email?.message}
           />
         )}
       />
@@ -47,6 +48,7 @@ const ProfileForm = () => {
             size="md"
             label={tr('Name')}
             placeholder={tr('Eg: Bino')}
+            error={formState.errors.name?.message}
           />
         )}
       />
@@ -63,6 +65,7 @@ const ProfileForm = () => {
             size="md"
             label={tr('Password')}
             placeholder={tr('Eg: muchSafety123')}
+            error={formState.errors.password?.message}
           />
         )}
       />
@@ -79,6 +82,7 @@ const ProfileForm = () => {
             size="md"
             label={tr('Re-type password')}
             placeholder={tr('Eg: muchSafety123')}
+            error={formState.errors.passwordCheck?.message}
           />
         )}
       />

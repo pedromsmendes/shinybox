@@ -1,8 +1,11 @@
 import type { AppContext, AppProps } from 'next/app';
+import fetch from 'node-fetch';
+import type { Request } from 'express';
 import App from 'next/app';
 import Head from 'next/head';
+
+import { print } from 'graphql';
 import { ApolloProvider } from '@apollo/client';
-import type { Request } from 'express';
 
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
@@ -12,9 +15,13 @@ import { TranslatorProvider } from '@/tools/translator';
 
 import type { AppState } from '@/reduxTypes';
 import { wrapper } from '@/redux/initStore';
-import { setLoggedIn } from '@/redux/reducers/session';
+import { setLoggedIn, setUser } from '@/redux/reducers/session';
 
 import createApolloClient from '@/tools/apolloClient/createApolloClient';
+
+import { API_GQL_ENDPOINT, API_URL } from '@/globals';
+
+import { MeDocument } from '@/graphql/users/Me.generated';
 
 const MyApp = (props: AppProps & { initialState: AppState }) => {
   const { Component, pageProps } = props;
@@ -69,6 +76,20 @@ MyApp.getInitialProps = wrapper
         store.dispatch(setLoggedIn());
 
         // maybe query the user and save it in redux
+        const userRes = await fetch(`${API_URL}${API_GQL_ENDPOINT}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tokenInfo.accessToken}`,
+          },
+          body: JSON.stringify({ query: print(MeDocument) }),
+        });
+
+        const parsedRes = await userRes.json();
+        if (parsedRes?.data?.me) {
+          store.dispatch(setUser(parsedRes.data.me));
+        }
       }
     }
 

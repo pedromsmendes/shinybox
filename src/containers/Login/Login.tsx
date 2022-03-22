@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+
+import { useForm } from 'react-hook-form';
+import { useApolloClient } from '@apollo/client';
 
 import {
   Button,
@@ -9,7 +11,9 @@ import {
 
 import { Route } from '@/globals';
 
-import { doLogin } from '@/redux/reducers/session';
+import { MeDocument, type MeQuery } from '@/graphql/users/Me.generated';
+
+import { doLogin, setUser } from '@/redux/reducers/session';
 import { useAppDispatch, useLoggedIn } from '@/reduxHooks';
 
 import Form from '@/components/Form';
@@ -21,6 +25,7 @@ const Login = () => {
   const tr = useTr();
 
   const { push } = useRouter();
+  const apolloClient = useApolloClient();
   const dispatch = useAppDispatch();
 
   const loggedIn = useLoggedIn();
@@ -48,10 +53,19 @@ const Login = () => {
 
     if (res.meta.requestStatus === 'fulfilled') {
       void push(Route.Collection);
+
+      const userRes = await apolloClient.query<MeQuery>({
+        query: MeDocument,
+        fetchPolicy: 'network-only',
+      });
+
+      if (userRes.data.me?.id) {
+        dispatch(setUser(userRes.data.me));
+      }
     } else {
       console.log('errors');
     }
-  }, [dispatch, push]);
+  }, [apolloClient, dispatch, push]);
 
   return (
     <div>
