@@ -1,27 +1,25 @@
 import React, { useEffect, useMemo } from 'react';
 
 import { useRouter } from 'next/router';
+import { useApolloClient } from '@apollo/client';
 
 import {
-  Button,
   createStyles,
-  Divider,
   Header as MantineHeader,
-  Menu,
   type HeaderProps as MantineHeaderProps,
 } from '@mantine/core';
 
-import { User as UserIcon } from 'tabler-icons-react';
-
 import { Route } from '@/globals';
 
-import { useLoggedIn } from '@/reduxHooks';
+import { useAppDispatch, useLoggedIn } from '@/reduxHooks';
+import { setUser } from '@/redux/reducers/session';
+
+import { MeDocument, type MeQuery } from '@/graphql/users/Me.generated';
 
 import { useTr } from '@/tools/translator';
 
 import HeaderLink from './HeaderLink';
-import ActionsMenu from '../ActionsMenu';
-import Link from 'next/link';
+import UserActions from './UserActions';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -53,14 +51,29 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
 
   const tr = useTr();
 
+  const apolloClient = useApolloClient();
+  const dispatch = useAppDispatch();
   const loggedIn = useLoggedIn();
-  console.log('🚀 ~ Header ~ loggedIn', loggedIn);
 
   useEffect(() => {
     if (loggedIn) {
+      void apolloClient.query<MeQuery>({
+        query: MeDocument,
+        fetchPolicy: 'network-only',
+      })
+        .then((res) => {
+          if (res.data.me?.id) {
+            dispatch(setUser(res.data.me));
+          }
+        });
+    }
+  }, [apolloClient, dispatch, loggedIn]);
+
+  useEffect(() => {
+    if (!loggedIn && pathname !== Route.Login) {
       void push(Route.Login);
     }
-  }, [loggedIn, push]);
+  }, [loggedIn, pathname, push]);
 
   const selectedTab = useMemo(() => {
     switch (pathname) {
@@ -98,19 +111,7 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
         )}
       </div>
 
-      {loggedIn ? (
-        <ActionsMenu buttonContent={<UserIcon />}>
-          <Menu.Item>{tr('Profile')}</Menu.Item>
-
-          <Divider />
-
-          <Menu.Item>{tr('Logout')}</Menu.Item>
-        </ActionsMenu>
-      ) : (
-        <Link href={Route.Login} passHref>
-          <Button>{tr('Login')}</Button>
-        </Link>
-      )}
+      <UserActions />
     </MantineHeader>
   );
 };
