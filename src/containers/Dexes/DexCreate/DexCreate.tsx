@@ -2,7 +2,10 @@ import React, { useCallback } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import { Button, createStyles, Group } from '@mantine/core';
+import {
+  Button,
+  Group,
+} from '@mantine/core';
 
 import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
 
@@ -12,21 +15,11 @@ import Form from '@/components/Form';
 
 import DexCreateForm from './DexCreateForm';
 
-const useStyles = createStyles((theme) => ({
-  form: {
-    '&>:not(:last-child)': {
-      marginBottom: theme.spacing.xs,
-    },
-  },
-}));
-
 export type DexCreateFormValues = {
   name: string;
 };
 
 const DexCreate = () => {
-  const { classes } = useStyles();
-
   const tr = useTr();
 
   const form = useForm<DexCreateFormValues>({
@@ -49,7 +42,7 @@ const DexCreate = () => {
 
   return (
     <div>
-      <Form {...form} onSubmit={handleSubmit} className={classes.form}>
+      <Form {...form} onSubmit={handleSubmit}>
         <Group position="right">
           <Button
             type="submit"
