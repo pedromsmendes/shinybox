@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
   Button,
@@ -14,15 +15,13 @@ import {
 } from 'tabler-icons-react';
 
 import { useAppDispatch, useLoggedIn, useUser } from '@/reduxHooks';
+import { doLogout } from '@/redux/reducers/session';
 
 import { useTr } from '@/tools/translator';
-
 import { Route } from '@/globals';
 
 import ActionsMenu from '../ActionsMenu';
 import ConfirmModal from '../ConfirmModal';
-import { doLogout } from '@/redux/reducers/session';
-import { useRouter } from 'next/router';
 
 const useStyles = createStyles((theme) => ({
   userActions: {
