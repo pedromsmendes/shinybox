@@ -147,7 +147,6 @@ export type PokemonUpdate = {
 export type Query = {
   dex?: Maybe<Dex>;
   dexes: Array<Dex>;
-  justForTypes?: Maybe<GraphqlError>;
   me?: Maybe<User>;
   pokemon?: Maybe<Pokemon>;
   pokemons: Array<Pokemon>;
@@ -223,7 +222,6 @@ export type UserUpdate = {
 export const GQLOperations = {
   Query: {
     Dexes: 'Dexes',
-    JustForTypes: 'JustForTypes',
     Pokemons: 'Pokemons',
     Me: 'Me',
     User: 'User',

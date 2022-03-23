@@ -1255,18 +1255,6 @@
               "deprecationReason": null
             },
             {
-              "name": "justForTypes",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "GraphqlError",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "pokemon",
               "description": null,
               "args": [
