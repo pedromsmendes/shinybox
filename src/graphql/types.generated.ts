@@ -14,6 +14,12 @@ export type Scalars = {
   DateTime: any;
 };
 
+/** The codes from the dang errors mang */
+export enum Code {
+  BadUserInput = 'BAD_USER_INPUT',
+  WrongBino = 'WRONG_BINO'
+}
+
 export type Dex = {
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
@@ -28,6 +34,12 @@ export type DexCreate = {
 
 export type DexUpdate = {
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type GraphqlError = {
+  code?: Maybe<Code>;
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type Mutation = {
@@ -135,6 +147,7 @@ export type PokemonUpdate = {
 export type Query = {
   dex?: Maybe<Dex>;
   dexes: Array<Dex>;
+  justForTypes?: Maybe<GraphqlError>;
   me?: Maybe<User>;
   pokemon?: Maybe<Pokemon>;
   pokemons: Array<Pokemon>;
@@ -210,6 +223,7 @@ export type UserUpdate = {
 export const GQLOperations = {
   Query: {
     Dexes: 'Dexes',
+    JustForTypes: 'JustForTypes',
     Pokemons: 'Pokemons',
     Me: 'Me',
     User: 'User',

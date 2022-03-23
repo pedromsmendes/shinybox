@@ -1,0 +1,7 @@
+query JustForTypes{
+  justForTypes{
+    message
+    field
+    code
+  }
+}

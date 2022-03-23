@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNotifications } from '@mantine/notifications';
 import {
@@ -14,9 +15,10 @@ import { useUser } from '@/reduxHooks';
 import Form from '@/components/Form';
 
 import { useTr } from '@/tools/translator';
+import normalizeGQLErrors from '@/tools/apolloClient/normalizeGQLErrors';
 
 import ProfileForm, { type ProfileFormValues } from './ProfileForm';
-import { ApolloError } from '@apollo/client';
+import profileSchema from './helpers/Profile.schema';
 
 const Profile = () => {
   const tr = useTr();
@@ -25,6 +27,9 @@ const Profile = () => {
   const notifications = useNotifications();
 
   const form = useForm<ProfileFormValues>({
+    resolver: yupResolver(profileSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues: {
       avatar: user?.avatar || '',
       email: user?.email || '',
@@ -53,27 +58,19 @@ const Profile = () => {
 
         if (res.data?.updateUser?.id && !res.errors?.length) {
           notifications.showNotification({ message: tr('User update successful!'), color: 'green' });
-        } else {
-          notifications.showNotification({ message: tr('User update failed!'), color: 'red' });
         }
       } catch (ex) {
-        if (ex instanceof ApolloError) {
-          const errors: any[] = [];
-          ex.graphQLErrors.map((gqlError) => {
-            // @ts-ignore
-            errors.push(...(gqlError?.extensions?.validationErrors || []));
-          });
-
-          if (errors.length) {
-            errors.forEach((error) => {
-              if (error.field in values) {
-                form.setError(error.field, {
-                  message: error.msg,
-                });
-              }
+        normalizeGQLErrors(ex).forEach((error) => {
+          if (error.field in values) {
+            form.setError(error.field as keyof typeof values, {
+              message: error.message,
             });
+          } else {
+            // need to do something with other errors
           }
-        }
+        });
+
+        notifications.showNotification({ message: tr('User update failed!'), color: 'red' });
       }
     }
   }, [form, notifications, tr, updateUser, user]);
