@@ -22,7 +22,13 @@ const useStyles = createStyles((theme) => ({
   viewport: {
     '&>*': {
       height: '100%',
+      width: '90%',
+      minWidth: 'unset !important',
+      margin: 'auto',
       display: 'flex !important',
+      '&>*': {
+        width: '100%',
+      },
     },
   },
 }));
