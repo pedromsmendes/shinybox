@@ -5,7 +5,10 @@ import redisConnect from 'connect-redis';
 import { createClient } from 'redis';
 import bodyParser from 'body-parser';
 
-import { API_CLIENT_SECRET, IN_DEV, IN_PROD, LOGIN_AUTH_PATH, LOGOUT_AUTH_PATH, PORT, REDIS_SESSION_NAME, REDIS_URL, REFRESH_AUTH_PATH } from '@/globals';
+import {
+  API_CLIENT_SECRET, IN_DEV, IN_TEST, LOGIN_AUTH_PATH, LOGOUT_AUTH_PATH,
+  PORT, REDIS_HOST, REDIS_PORT, SESSION_NAME, REFRESH_AUTH_PATH,
+} from '@/globals';
 import login from './login';
 import logout from './logout';
 import refresh from './refresh';
@@ -30,18 +33,21 @@ const server = async () => {
     secret: API_CLIENT_SECRET,
     resave: false,
     saveUninitialized: false,
-    name: REDIS_SESSION_NAME,
+    name: SESSION_NAME,
     cookie: {
       httpOnly: true,
       sameSite: true,
     },
   };
 
-  if (IN_PROD) {
+  if (!IN_TEST) {
     const RedisStore = redisConnect(session);
     const redisClient = createClient({
-      url: REDIS_URL,
+      url: `redis://${REDIS_HOST}:${REDIS_PORT}`,
+      legacyMode: true,
     });
+
+    await redisClient.connect();
 
     sessionOpts.store = new RedisStore({ client: redisClient });
   }

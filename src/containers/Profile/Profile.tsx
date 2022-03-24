@@ -24,7 +24,7 @@ const Profile = () => {
   const tr = useTr();
 
   const user = useUser();
-  const notifications = useNotifications();
+  const { showNotification } = useNotifications();
 
   const form = useForm<ProfileFormValues>({
     resolver: yupResolver(profileSchema),
@@ -57,7 +57,7 @@ const Profile = () => {
         });
 
         if (res.data?.updateUser?.id && !res.errors?.length) {
-          notifications.showNotification({ message: tr('User update successful!'), color: 'green' });
+          showNotification({ message: tr('User update successful!'), color: 'green' });
         }
       } catch (ex) {
         normalizeGQLErrors(ex).forEach((error) => {
@@ -70,10 +70,10 @@ const Profile = () => {
           }
         });
 
-        notifications.showNotification({ message: tr('User update failed!'), color: 'red' });
+        showNotification({ message: tr('User update failed!'), color: 'red' });
       }
     }
-  }, [form, notifications, tr, updateUser, user]);
+  }, [form, showNotification, tr, updateUser, user]);
 
   return (
     <div>
