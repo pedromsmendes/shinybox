@@ -31,7 +31,7 @@ const Profile = () => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
-      avatar: user?.avatar || '',
+      avatar: null,
       email: user?.email || '',
       name: user?.name || '',
       password: '',
@@ -87,7 +87,7 @@ const Profile = () => {
           </Button>
         </Group>
 
-        <ProfileForm />
+        <ProfileForm  />
       </Form>
     </div>
   );

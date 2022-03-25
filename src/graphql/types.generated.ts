@@ -12,6 +12,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 /** The codes from the dang errors mang */
@@ -34,6 +36,12 @@ export type DexCreate = {
 
 export type DexUpdate = {
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type File = {
+  encoding: Scalars['String'];
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
 };
 
 export type GraphqlError = {
@@ -204,7 +212,7 @@ export type User = {
 };
 
 export type UserCreate = {
-  avatar?: InputMaybe<Scalars['String']>;
+  avatar?: InputMaybe<Scalars['Upload']>;
   email: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
@@ -212,7 +220,7 @@ export type UserCreate = {
 };
 
 export type UserUpdate = {
-  avatar?: InputMaybe<Scalars['String']>;
+  avatar?: InputMaybe<Scalars['Upload']>;
   email?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;

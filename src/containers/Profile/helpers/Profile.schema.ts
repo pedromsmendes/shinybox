@@ -29,6 +29,8 @@ const profileSchema = yup.object().shape<SchemaProfile>({
     .label('Password'),
   passwordCheck: yup
     .string()
+    .nullable()
+    .transform((_, value: string) => value.length === 0 ? null : value)
     .oneOf([yup.ref('password')], 'Passwords must match')
     .label('Password confirmation'),
 });
