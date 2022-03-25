@@ -1,25 +1,45 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { PasswordInput, TextInput } from '@mantine/core';
 
 import { useTr } from '@/tools/translator';
+import Dropzone from '@/components/Dropzone';
 
 export type ProfileFormValues = {
   email: string;
   password: string;
   passwordCheck: string;
   name?: string;
-  avatar?: string;
+  avatar: File | null;
 };
 
 const ProfileForm = () => {
   const tr = useTr();
 
-  const { control, formState, getValues } = useFormContext<ProfileFormValues>();
+  const { control, formState, getValues, setValue } = useFormContext<ProfileFormValues>();
+
+  const handleImageDrop = useCallback((newFile: File) => {
+    console.log('🚀 ~ handleImageDrop ~ newFile', newFile);
+    setValue('avatar', newFile);
+  }, [setValue]);
 
   return (
     <>
+      <Controller
+        name="avatar"
+        control={control}
+        render={({ field }) => (
+          <Dropzone
+            {...field}
+            onDrop={handleImageDrop}
+            disabled={formState.isSubmitting}
+            error={formState.errors.email?.message}
+            file={field.value}
+          />
+        )}
+      />
+
       <Controller
         name="email"
         control={control}

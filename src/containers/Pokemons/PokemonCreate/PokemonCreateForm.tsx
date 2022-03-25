@@ -18,7 +18,6 @@ import Table from '@/components/Table';
 import { useTr } from '@/tools/translator';
 
 import type { PokemonCreateFormValues } from './PokemonCreate';
-import Dropzone from '@/components/Dropzone';
 
 const PokemonCreateForm = () => {
   const { control, setValue } = useFormContext<PokemonCreateFormValues>();
@@ -84,8 +83,6 @@ const PokemonCreateForm = () => {
           />
         )}
       />
-
-      <Dropzone />
 
       <Table
         hover={false}
