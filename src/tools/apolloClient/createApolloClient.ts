@@ -100,7 +100,6 @@ const createApolloClient = () => {
   );
 
   const apolloClient = new ApolloClient({
-    uri: `${API_URL}${API_GQL_ENDPOINT}`,
     cache: new InMemoryCache(),
     connectToDevTools: IN_DEV,
     link,

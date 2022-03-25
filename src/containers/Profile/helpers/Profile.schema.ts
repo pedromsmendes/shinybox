@@ -16,7 +16,7 @@ const profileSchema = yup.object().shape<SchemaProfile>({
     .nullable()
     .label('Name'),
   avatar: yup
-    .string()
+    .mixed()
     .notRequired()
     .nullable()
     .label('Avatar'),

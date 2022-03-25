@@ -13,7 +13,7 @@ export type Scalars = {
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
   /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  Upload: File;
 };
 
 /** The codes from the dang errors mang */
@@ -36,12 +36,6 @@ export type DexCreate = {
 
 export type DexUpdate = {
   name?: InputMaybe<Scalars['String']>;
-};
-
-export type File = {
-  encoding: Scalars['String'];
-  filename: Scalars['String'];
-  mimetype: Scalars['String'];
 };
 
 export type GraphqlError = {

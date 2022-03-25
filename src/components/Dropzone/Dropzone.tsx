@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback, useRef } from 'react';
 
 import {
   Dropzone as MantineDropzone,
@@ -39,7 +39,7 @@ type DropzoneProps = {
   error?: string;
 };
 
-const Dropzone = (props: DropzoneProps) => {
+const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>((props, forwardedRef) => {
   const {
     file,
     onDrop,
@@ -64,6 +64,7 @@ const Dropzone = (props: DropzoneProps) => {
   return (
     <div className={classes.wrapper}>
       <MantineDropzone
+        ref={forwardedRef}
         disabled={disabled}
         openRef={openRef}
         className={cx(classes.dropzone, { [classes.noBorder]: !!file })}
@@ -83,6 +84,8 @@ const Dropzone = (props: DropzoneProps) => {
       </MantineDropzone>
     </div>
   );
-};
+});
+
+Dropzone.displayName = 'Arroz';
 
 export default Dropzone;

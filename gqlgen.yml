@@ -10,6 +10,8 @@ generates:
     config:
       skipTypename: true
       identifierName: GQLOperations
+      scalars:
+        Upload: "File"
 
   src/graphql/:
     preset: near-operation-file
@@ -26,3 +28,5 @@ generates:
       withRefetchFn: true
       skipTypename: true
       apolloReactHooksImportFrom: "@/apolloClient"
+      scalars:
+        Upload: "File"
