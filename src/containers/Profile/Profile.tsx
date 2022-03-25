@@ -31,7 +31,7 @@ const Profile = () => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
-      avatar: null,
+      avatar: user?.avatar ?? null,
       email: user?.email || '',
       name: user?.name || '',
       password: '',
@@ -48,7 +48,7 @@ const Profile = () => {
           variables: {
             id: user?.id,
             data: {
-              avatar: values.avatar || null,
+              avatar: (values.avatar instanceof File || values.avatar === null) ? values.avatar : undefined,
               email: values.email,
               name: values.name || null,
               password: values.password || undefined,
@@ -87,7 +87,7 @@ const Profile = () => {
           </Button>
         </Group>
 
-        <ProfileForm  />
+        <ProfileForm />
       </Form>
     </div>
   );

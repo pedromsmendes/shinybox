@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 
 import { CloudUpload as CloudIcon } from 'tabler-icons-react';
+import { API_URL } from '@/globals';
 
 const getActiveColor = (status: DropzoneStatus, theme: MantineTheme) => (
   status.accepted
@@ -63,27 +64,32 @@ const useStyles = createStyles(() => ({
 
 type DropzoneContentFunc = (
   status: DropzoneStatus,
-  file: File | null,
+  string: File | string | null,
   maxSizeMB: string,
   acceptedFiles: string[],
   theme: MantineTheme,
 ) => JSX.Element;
 
-const DropzoneContent: DropzoneContentFunc = (status, file, maxSizeMB, acceptedFiles, theme) => {
+const DropzoneContent: DropzoneContentFunc = (status, image, maxSizeMB, acceptedFiles, theme) => {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const { classes, cx } = useStyles();
 
   useEffect(() => {
-    if (!file) {
+    if (!image) {
       setImgSrc(null);
       return;
     }
 
-    const objectUrl = URL.createObjectURL(file);
+    if (typeof image === 'string') {
+      setImgSrc(`${API_URL}/${image}`);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(image);
     setImgSrc(objectUrl);
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [file]);
+  }, [image]);
 
   const formattedAcceptedFiles = useMemo(() => (
     acceptedFiles.map((acceptedFile) => acceptedFile.replace('image/', '.')).join(', ')
@@ -122,7 +128,7 @@ const DropzoneContent: DropzoneContentFunc = (status, file, maxSizeMB, acceptedF
         </>
       )}
 
-      <div className={cx({ [classes.info]: !!imgSrc })}>
+      <div className={cx({ [classes.info]: !!image })}>
         <Text align="center" size="sm" color="dimmed">
           {`${maxSizeMB}MB max.`}
         </Text>

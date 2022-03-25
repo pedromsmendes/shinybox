@@ -1,3 +1,3 @@
-import Dropzone from './Dropzone';
+import ImageDrop from './ImageDrop';
 
-export default Dropzone;
+export default ImageDrop;

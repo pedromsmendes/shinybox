@@ -4,14 +4,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { PasswordInput, TextInput } from '@mantine/core';
 
 import { useTr } from '@/tools/translator';
-import Dropzone from '@/components/Dropzone';
+import ImageDrop from '@/components/Dropzone';
 
 export type ProfileFormValues = {
   email: string;
   password: string;
   passwordCheck: string;
   name?: string;
-  avatar: File | null;
+  avatar: File | string | null;
 };
 
 const ProfileForm = () => {
@@ -20,7 +20,6 @@ const ProfileForm = () => {
   const { control, formState, getValues, setValue } = useFormContext<ProfileFormValues>();
 
   const handleImageDrop = useCallback((newFile: File) => {
-    console.log('🚀 ~ handleImageDrop ~ newFile', newFile);
     setValue('avatar', newFile);
   }, [setValue]);
 
@@ -30,12 +29,12 @@ const ProfileForm = () => {
         name="avatar"
         control={control}
         render={({ field }) => (
-          <Dropzone
+          <ImageDrop
             {...field}
             onDrop={handleImageDrop}
             disabled={formState.isSubmitting}
             error={formState.errors.email?.message}
-            file={field.value}
+            image={field.value}
           />
         )}
       />

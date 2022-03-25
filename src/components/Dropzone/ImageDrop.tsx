@@ -32,16 +32,16 @@ const MAX_SIZE_B = MAX_SIZE_MB * 1024 ** 2;
 
 const acceptedFiles = [MIME_TYPES.gif, MIME_TYPES.jpeg, MIME_TYPES.png, MIME_TYPES.webp];
 
-type DropzoneProps = {
-  file: File | null;
+type ImageDropProps = {
+  image: File | string | null;
   onDrop: (file: File) => void;
   disabled?: boolean;
   error?: string;
 };
 
-const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>((props, forwardedRef) => {
+const ImageDrop = forwardRef<HTMLDivElement, ImageDropProps>((props, forwardedRef) => {
   const {
-    file,
+    image,
     onDrop,
     disabled,
   } = props;
@@ -67,7 +67,7 @@ const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>((props, forwardedRef)
         ref={forwardedRef}
         disabled={disabled}
         openRef={openRef}
-        className={cx(classes.dropzone, { [classes.noBorder]: !!file })}
+        className={cx(classes.dropzone, { [classes.noBorder]: !!image })}
         onDrop={handleDropFile}
         onReject={handleOnReject}
         accept={acceptedFiles}
@@ -76,7 +76,7 @@ const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>((props, forwardedRef)
       >
         {(status) => DropzoneContent(
           status,
-          file,
+          image,
           MAX_SIZE_MB.toString(),
           acceptedFiles,
           theme,
@@ -86,6 +86,6 @@ const Dropzone = forwardRef<HTMLDivElement, DropzoneProps>((props, forwardedRef)
   );
 });
 
-Dropzone.displayName = 'Arroz';
+ImageDrop.displayName = 'Arroz';
 
-export default Dropzone;
+export default ImageDrop;
