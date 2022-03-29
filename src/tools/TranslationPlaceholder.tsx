@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 
 const TranslatorContext = React.createContext((text: string) => text);
 
-const TranslatorProvider: React.FC = ({ children }) => {
+const TranslationPlaceholderProvider: React.FC = ({ children }) => {
   // const languageId = getLanguageIdFromSomewhere();
 
   const tr = useCallback((text: string) => text, []);
@@ -24,4 +24,4 @@ const useTr = () => {
   return context;
 };
 
-export { TranslatorProvider, useTr };
+export { TranslationPlaceholderProvider as TranslatorProvider, useTr };

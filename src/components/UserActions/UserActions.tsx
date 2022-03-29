@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -17,7 +19,6 @@ import {
 import { useAppDispatch, useLoggedIn, useUser } from '@/reduxHooks';
 import { doLogout } from '@/redux/reducers/session';
 
-import { useTr } from '@/tools/translator';
 import { Route } from '@/globals';
 
 import ActionsMenu from '../ActionsMenu';
@@ -34,7 +35,8 @@ const UserActions = () => {
 
   const { classes } = useStyles();
   const { push } = useRouter();
-  const tr = useTr();
+
+  const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
   const loggedIn = useLoggedIn();
@@ -61,23 +63,23 @@ const UserActions = () => {
             <Menu.Label>{user.name || user.email}</Menu.Label>
 
             <Menu.Item onClick={() => push(Route.Profile)} icon={<EditIcon />}>
-              {tr('Profile')}
+              {t('general.profile')}
             </Menu.Item>
 
             <Divider />
 
-            <Menu.Item onClick={openModal} icon={<LogoutIcon />}>{tr('Logout')}</Menu.Item>
+            <Menu.Item onClick={openModal} icon={<LogoutIcon />}>{t('general.logout')}</Menu.Item>
           </ActionsMenu>
         ) : (
           <Link href={Route.Login} passHref>
-            <Button>{tr('Login')}</Button>
+            <Button>{t('general.login')}</Button>
           </Link>
         )}
       </div>
 
       <ConfirmModal
         opened={logoutModal}
-        title={tr('Are you sure you want to logout?')}
+        title={t('general.sure-logout')}
         onClose={closeModal}
         onAccept={handleLogout}
       />

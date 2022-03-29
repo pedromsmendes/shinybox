@@ -2,13 +2,14 @@ import React from 'react';
 
 import { Text } from '@mantine/core';
 
-import { useTr } from '@/tools/translator';
+import { useTranslation } from 'react-i18next';
 
 const Counters = () => {
-  const tr = useTr();
+  const { t } = useTranslation();
+
   return (
     <div>
-      <Text>{tr('COUNTERS')}</Text>
+      <Text>{t('general.counters')}</Text>
     </div>
   );
 };

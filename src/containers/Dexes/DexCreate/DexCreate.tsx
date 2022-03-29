@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useForm } from 'react-hook-form';
 
@@ -9,8 +10,6 @@ import {
 
 import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
 
-import { useTr } from '@/tools/translator';
-
 import Form from '@/components/Form';
 
 import DexCreateForm from './DexCreateForm';
@@ -20,7 +19,7 @@ export type DexCreateFormValues = {
 };
 
 const DexCreate = () => {
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const form = useForm<DexCreateFormValues>({
     defaultValues: {
@@ -48,7 +47,7 @@ const DexCreate = () => {
             type="submit"
             disabled={form.formState.isSubmitting}
           >
-            {tr('Create')}
+            {t('general.create')}
           </Button>
         </Group>
 

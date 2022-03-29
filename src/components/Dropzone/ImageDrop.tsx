@@ -5,10 +5,11 @@ import {
   MIME_TYPES,
 } from '@mantine/dropzone';
 import { createStyles } from '@mantine/core';
+import { useNotifications } from '@mantine/notifications';
+
+import { useTr } from '@/tools/TranslationPlaceholder';
 
 import DropzoneContent, { PREVIEW_SIZE } from './DropzoneContent';
-import { useNotifications } from '@mantine/notifications';
-import { useTr } from '@/tools/translator';
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -47,11 +48,11 @@ const ImageDrop = forwardRef<HTMLDivElement, ImageDropProps>((props, forwardedRe
   } = props;
 
   const openRef = useRef<() => void>(null);
+  const tr = useTr();
+
   const { showNotification } = useNotifications();
 
   const { cx, classes, theme } = useStyles();
-
-  const tr = useTr();
 
   const handleOnReject = useCallback(() => {
     showNotification({ message: tr('Failed to upload') });
@@ -86,6 +87,6 @@ const ImageDrop = forwardRef<HTMLDivElement, ImageDropProps>((props, forwardedRe
   );
 });
 
-ImageDrop.displayName = 'Arroz';
+ImageDrop.displayName = 'ImageDrop';
 
 export default ImageDrop;

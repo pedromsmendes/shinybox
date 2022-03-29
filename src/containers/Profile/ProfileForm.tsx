@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { PasswordInput, TextInput } from '@mantine/core';
 
-import { useTr } from '@/tools/translator';
+import { useTr } from '@/tools/TranslationPlaceholder';
 import ImageDrop from '@/components/Dropzone';
 
 export type ProfileFormValues = {

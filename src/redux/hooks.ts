@@ -8,6 +8,7 @@ export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 export const useAppStore = (): Store<AppState> => useStore<AppState>();
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
 
+/* SESSION */
 export const useLoginErrors = () => useAppSelector((state) => state.session.loginErrors);
 export const useLoggedIn = () => useAppSelector((state) => state.session.loggedIn);
 export const useUser = () => useAppSelector((state) => state.session.user);

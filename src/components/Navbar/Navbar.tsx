@@ -12,7 +12,7 @@ import {
   Plus as AddIcon,
 } from 'tabler-icons-react';
 
-import { useTr } from '@/tools/translator';
+import { useTr } from '@/tools/TranslationPlaceholder';
 
 import NavbarRoute from './NavbarRoute';
 

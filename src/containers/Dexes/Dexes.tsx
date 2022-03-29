@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   ActionIcon,
@@ -13,8 +14,6 @@ import { useRemoveDexesMutation } from '@/graphql/dexes/DeleteDex.generated';
 
 import Table from '@/components/Table';
 
-import { useTr } from '@/tools/translator';
-
 const useStyles = createStyles(() => ({
   dexesContainer: {
     position: 'relative', // for the loading overlay
@@ -27,7 +26,7 @@ const useStyles = createStyles(() => ({
 const Dexes = () => {
   const { classes } = useStyles();
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const { data, loading, refetch } = useDexesQuery({
     fetchPolicy: 'cache-and-network',
@@ -52,8 +51,8 @@ const Dexes = () => {
       <Table
         headers={(
           <>
-            <th>{tr('ID')}</th>
-            <th>{tr('Name')}</th>
+            <th>{t('general.id')}</th>
+            <th>{t('general.name')}</th>
             <th align="right" />
           </>
         )}

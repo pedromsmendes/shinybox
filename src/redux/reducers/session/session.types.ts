@@ -7,6 +7,11 @@ export type LoginError = {
 
 export type SessionUser = NonNullable<UserQuery['user']> | null;
 
+export enum Language {
+  EN = 'en',
+  PT = 'pt',
+}
+
 export type SessionType = {
   loggedIn: boolean;
   loginErrors: LoginError[];

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useRouter } from 'next/router';
 
@@ -12,10 +13,9 @@ import { Route } from '@/globals';
 
 import { useLoggedIn } from '@/reduxHooks';
 
-import { useTr } from '@/tools/translator';
-
 import HeaderLink from './HeaderLink';
-import UserActions from './UserActions';
+import UserActions from '../UserActions';
+import LanguageSelector from '../LanguageSelector';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -28,6 +28,12 @@ const useStyles = createStyles((theme) => ({
   navigation: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  userAndLanguage: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
 
@@ -45,7 +51,7 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
   const { theme, classes } = useStyles();
   const { pathname, push } = useRouter();
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const loggedIn = useLoggedIn();
 
@@ -78,20 +84,23 @@ const Header = ({ mantineHeaderProps }: HeaderProps) => {
     >
       <div className={classes.navigation}>
         <HeaderLink href="/pokemons" selected={selectedTab === Tab.Pokemons}>
-          {tr('Pokemons')}
+          {t('general.pokemons')}
         </HeaderLink>
         <HeaderLink href="/dexes" selected={selectedTab === Tab.Dexes}>
-          {tr('Dexes')}
+          {t('general.dexes')}
         </HeaderLink>
 
         {loggedIn && (
           <HeaderLink href="/counters" selected={selectedTab === Tab.Counters}>
-            {tr('Counters')}
+            {t('general.counters')}
           </HeaderLink>
         )}
       </div>
 
-      <UserActions />
+      <div className={classes.userAndLanguage}>
+        <LanguageSelector />
+        <UserActions />
+      </div>
     </MantineHeader>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'next-i18next';
 
 import {
   ActionIcon,
@@ -13,8 +14,6 @@ import { useRemovePokemonsMutation } from '@/graphql/pokemons/DeletePokemon.gene
 
 import Table from '@/components/Table';
 
-import { useTr } from '@/tools/translator';
-
 const useStyles = createStyles(() => ({
   pokemonsContainer: {
     position: 'relative', // for the loading overlay
@@ -27,7 +26,7 @@ const useStyles = createStyles(() => ({
 const Pokemons = () => {
   const { classes } = useStyles();
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const { data, loading, refetch } = usePokemonsQuery({
     fetchPolicy: 'cache-and-network',
@@ -52,8 +51,8 @@ const Pokemons = () => {
       <Table
         headers={(
           <>
-            <th>{tr('ID')}</th>
-            <th>{tr('Name')}</th>
+            <th>{t('general.id')}</th>
+            <th>{t('general.name')}</th>
             <th align="right" />
           </>
         )}

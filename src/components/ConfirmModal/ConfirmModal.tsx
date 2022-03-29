@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Button,
   Group,
   Modal,
 } from '@mantine/core';
-
-import { useTr } from '@/tools/translator';
 
 type ConfirmationModalProps = {
   opened: boolean;
@@ -29,7 +28,7 @@ const ConfirmModal = (props: ConfirmationModalProps) => {
     title,
   } = props;
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const handleAccept = useCallback(() => {
     if (onAccept) {
@@ -64,11 +63,11 @@ const ConfirmModal = (props: ConfirmationModalProps) => {
             color="red"
             onClick={handleCancel}
           >
-            {tr('Cancel')}
+            {t('general.cancel')}
           </Button>
         )}
 
-        <Button onClick={handleAccept}>{tr('Accept')}</Button>
+        <Button onClick={handleAccept}>{t('general.accept')}</Button>
       </Group>
     </Modal>
   );

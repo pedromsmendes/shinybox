@@ -6,7 +6,7 @@ import { removeFromLocal, removeFromSession, setInLocal, setInSession } from '@/
 import type { AppState } from '@/reduxTypes';
 
 import { doLogin, doLogout } from './extraReducers';
-import type { SessionType, SessionUser } from './session.types';
+import { type SessionType, type SessionUser } from './session.types';
 
 const hydrate = createAction<AppState>(HYDRATE);
 

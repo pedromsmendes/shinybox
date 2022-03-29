@@ -14,7 +14,7 @@ import { useUser } from '@/reduxHooks';
 
 import Form from '@/components/Form';
 
-import { useTr } from '@/tools/translator';
+import { useTr } from '@/tools/TranslationPlaceholder';
 import normalizeGQLErrors from '@/tools/apolloClient/normalizeGQLErrors';
 
 import ProfileForm, { type ProfileFormValues } from './ProfileForm';

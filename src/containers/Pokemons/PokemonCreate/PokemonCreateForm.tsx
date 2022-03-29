@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -15,8 +16,6 @@ import { useCreateDexMutation } from '@/graphql/dexes/CreateDex.generated';
 
 import Table from '@/components/Table';
 
-import { useTr } from '@/tools/translator';
-
 import type { PokemonCreateFormValues } from './PokemonCreate';
 
 const PokemonCreateForm = () => {
@@ -25,7 +24,7 @@ const PokemonCreateForm = () => {
     name: 'dexes',
   });
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const { data, loading: loadingDexes, refetch } = useDexesQuery();
   const [createDex, { loading: creatingDex }] = useCreateDexMutation();
@@ -78,8 +77,8 @@ const PokemonCreateForm = () => {
             required
             radius="lg"
             size="md"
-            label={tr('Name')}
-            placeholder={tr('Eg: Bulbasaur')}
+            label={t('general.name')}
+            placeholder={t('form.eg-bulbasaur', { defaultValue: 'Eg: Bulbasaur' })}
           />
         )}
       />
@@ -89,9 +88,9 @@ const PokemonCreateForm = () => {
         striped={false}
         headers={(
           <>
-            <td align="center">{tr('Dex')}</td>
-            <td align="center">{tr('Name in dex')}</td>
-            <td align="center">{tr('Number')}</td>
+            <td align="center">{t('general.dex')}</td>
+            <td align="center">{t('general.name-dex')}</td>
+            <td align="center">{t('general.number')}</td>
             <td align="center" />
           </>
         )}
@@ -108,13 +107,13 @@ const PokemonCreateForm = () => {
                     required
                     searchable
                     creatable
-                    nothingFound={tr('No dexes. Add one')}
+                    nothingFound={t('form.no-dex-add')}
                     disabled={creatingDex || loadingDexes}
                     radius="lg"
                     size="md"
                     // label={tr('Dex')}
-                    placeholder={tr('Eg: Kanto')}
-                    getCreateLabel={(query: string) => tr(`Add "${query}"`)}
+                    placeholder={t('form.eg-kanto', { defaultValue: 'Eg: Kanto' })}
+                    getCreateLabel={(query: string) => t('Add "{{query}}"', { replace: { query } })}
                     onCreate={onDexCreate(idx)}
                     data={dexesSelect}
                   />
@@ -133,7 +132,7 @@ const PokemonCreateForm = () => {
                     radius="lg"
                     size="md"
                     // label={tr('Name in dex')}
-                    placeholder={tr('Eg: Alolan Meowth')}
+                    placeholder={t('Eg: Alolan Meowth')}
                   />
                 )}
               />
@@ -150,7 +149,7 @@ const PokemonCreateForm = () => {
                     radius="lg"
                     size="md"
                     // label={tr('Number')}
-                    placeholder={tr('Eg: 1')}
+                    placeholder={t('Eg: 1')}
                   />
                 )}
               />
@@ -170,7 +169,7 @@ const PokemonCreateForm = () => {
           <td />
           <td align="right">
             <Button onClick={addDexRow}>
-              {tr('Add dex')}
+              {t('Add dex')}
             </Button>
           </td>
         </tr>

@@ -1,0 +1,30 @@
+{
+  "general": {
+    "title": "Shiny box EN",
+    "cancel": "Cancel",
+    "accept": "Accept",
+    "pokemons": "Pokémons",
+    "dexes": "Dexes",
+    "counters": "Counters",
+    "collection": "Collection",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout",
+    "sure-logout": "Are you sure you want to logout?",
+    "email": "E-mail",
+    "password": "Password",
+    "rememberme": "Remember me",
+    "create": "Create",
+    "dex": "Dex",
+    "name-dex": "Name in dex",
+    "name": "Name",
+    "number": "Number",
+    "id": "Id"
+  },
+  "form": {
+    "no-dex-add": "No dexes. Add one"
+  },
+  "footer": {
+    "placeholder": "**** Placeholder footer"
+  }
+}

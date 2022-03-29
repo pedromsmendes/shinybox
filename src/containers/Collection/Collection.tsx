@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Text } from '@mantine/core';
 
-import { useTr } from '@/tools/translator';
+import { useTranslation } from 'react-i18next';
 
 const Collection = () => {
-  const tr = useTr();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <Text>{tr('COLLECTION')}</Text>
+      <Text>{t('general.collection')}</Text>
     </div>
   );
 };

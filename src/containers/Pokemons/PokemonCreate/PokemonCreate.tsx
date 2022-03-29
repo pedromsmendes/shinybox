@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Group } from '@mantine/core';
 
 import { useCreatePokemonMutation } from '@/graphql/pokemons/CreatePokemon.generated';
-
-import { useTr } from '@/tools/translator';
 
 import PokemonCreateForm from './PokemonCreateForm';
 import Form from '@/components/Form';
@@ -20,7 +19,7 @@ export type PokemonCreateFormValues = {
 };
 
 const PokemonCreate = () => {
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const form = useForm<PokemonCreateFormValues>({
     defaultValues: {
@@ -55,7 +54,7 @@ const PokemonCreate = () => {
             type="submit"
             disabled={form.formState.isSubmitting}
           >
-            {tr('Create')}
+            {t('general.create')}
           </Button>
         </Group>
 

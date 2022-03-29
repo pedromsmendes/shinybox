@@ -14,6 +14,8 @@ import {
 import { CloudUpload as CloudIcon } from 'tabler-icons-react';
 import { API_URL } from '@/globals';
 
+import { useTr } from '@/tools/TranslationPlaceholder';
+
 const getActiveColor = (status: DropzoneStatus, theme: MantineTheme) => (
   status.accepted
     ? theme.colors[theme.primaryColor][6]
@@ -73,6 +75,7 @@ type DropzoneContentFunc = (
 const DropzoneContent: DropzoneContentFunc = (status, image, maxSizeMB, acceptedFiles, theme) => {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const { classes, cx } = useStyles();
+  const tr = useTr();
 
   useEffect(() => {
     if (!image) {
@@ -120,17 +123,17 @@ const DropzoneContent: DropzoneContentFunc = (status, image, maxSizeMB, accepted
             sx={{ color: getActiveColor(status, theme) }}
           >
             {status.accepted
-              ? 'Drop images here'
+              ? tr('Drop images here')
               : status.rejected
-                ? `Image with less than ${maxSizeMB}MB`
-                : 'Upload image'}
+                ? tr(`Image with less than ${maxSizeMB}MB`)
+                : tr('Upload image')}
           </Text>
         </>
       )}
 
       <div className={cx({ [classes.info]: !!image })}>
         <Text align="center" size="sm" color="dimmed">
-          {`${maxSizeMB}MB max.`}
+          {tr(`${maxSizeMB}MB max.`)}
         </Text>
         <Text align="center" size="sm" color="dimmed">
           {formattedAcceptedFiles}

@@ -1,8 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { createStyles, Text } from '@mantine/core';
-
-import { useTr } from '@/tools/translator';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -23,13 +22,12 @@ const useStyles = createStyles((theme) => ({
 const Footer = () => {
   const { classes } = useStyles();
 
-  const tr = useTr();
+  const { t } = useTranslation();
 
   return (
     <div className={classes.footer}>
       <div>
-        <Text>{tr('9999')}</Text>
-        <Text>{tr('Testing stuff')}</Text>
+        <Text>{t('footer.placeholder')}</Text>
       </div>
     </div>
   );

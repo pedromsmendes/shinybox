@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+
 import { useRouter } from 'next/router';
 
-import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 
 import {
@@ -19,10 +21,8 @@ import { useAppDispatch, useLoggedIn } from '@/reduxHooks';
 import Form from '@/components/Form';
 import LoginForm, { type LoginFormValues } from '@/components/LoginForm';
 
-import { useTr } from '@/tools/translator';
-
 const Login = () => {
-  const tr = useTr();
+  const { t } = useTranslation();
 
   const { push } = useRouter();
   const apolloClient = useApolloClient();
@@ -78,7 +78,7 @@ const Login = () => {
             loading={form.formState.isSubmitting}
             type="submit"
           >
-            {tr('Login')}
+            {t('general.login')}
           </Button>
         </Group>
       </Form>

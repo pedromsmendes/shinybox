@@ -13,7 +13,8 @@ import {
 
 import { useLoginErrors } from '@/reduxHooks';
 
-import { useTr } from '@/tools/translator';
+import { useTr } from '@/tools/TranslationPlaceholder';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = createStyles((theme) => ({
   rememberMeGroup: {
@@ -37,6 +38,7 @@ export type LoginFormValues = {
 const LoginForm = () => {
   const loginErrors = useLoginErrors();
 
+  const { t } = useTranslation();
   const tr = useTr();
 
   const { control, formState } = useFormContext<LoginFormValues>();
@@ -60,7 +62,7 @@ const LoginForm = () => {
             required
             radius="lg"
             size="md"
-            label={tr('E-mail')}
+            label={t('general.email')}
             placeholder={tr('Eg: mail@mail.com')}
             error={fieldError ? tr(fieldError.msg) : false}
           />
@@ -77,7 +79,7 @@ const LoginForm = () => {
             required
             radius="lg"
             size="md"
-            label={tr('Password')}
+            label={t('general.password')}
             placeholder={tr('Eg: muchSafety123')}
             error={fieldError ? tr(fieldError.msg) : false}
           />
@@ -95,7 +97,7 @@ const LoginForm = () => {
               checked={value}
               radius="lg"
               size="md"
-              label={tr('Remember me')}
+              label={t('general.rememberme')}
             />
           )}
         />
