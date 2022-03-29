@@ -1,10 +1,10 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import Pokemons from '@/containers/Pokemons';
+import { type GetServerSideProps } from 'next';
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ['common'])),
-  },
-});
+import Pokemons from '@/containers/Pokemons';
+import getServerSideTranslations from '@/tools/getServerSideTranslations';
+
+export const getServerSideProps: GetServerSideProps = (ctx) => (
+  getServerSideTranslations(ctx, ['common'])
+);
 
 export default Pokemons;
