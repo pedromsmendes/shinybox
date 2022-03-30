@@ -13,6 +13,7 @@ import { usePokemonsQuery } from '@/graphql/pokemons/Pokemons.generated';
 import { useRemovePokemonsMutation } from '@/graphql/pokemons/DeletePokemon.generated';
 
 import Table from '@/components/Table';
+import { PokemonOrderField, Sort } from '@/graphql/types.generated';
 
 const useStyles = createStyles(() => ({
   pokemonsContainer: {
@@ -29,6 +30,15 @@ const Pokemons = () => {
   const { t } = useTranslation();
 
   const { data, loading, refetch } = usePokemonsQuery({
+    variables: {
+      options: {
+        orderBy: [{ field: PokemonOrderField.Name, sortOrder: Sort.Asc }],
+        pagination: {
+          first: 5,
+          // after: '673a2f46-a4ce-4dce-876c-0351df5b60c7',
+        },
+      },
+    },
     fetchPolicy: 'cache-and-network',
   });
 
@@ -57,7 +67,7 @@ const Pokemons = () => {
           </>
         )}
       >
-        {data?.pokemons.map((pokemon) => (
+        {data?.pokemons.edges.map(({ node: pokemon }) => (
           <tr key={pokemon.id}>
             <td>{pokemon.id}</td>
             <td>{pokemon.name}</td>

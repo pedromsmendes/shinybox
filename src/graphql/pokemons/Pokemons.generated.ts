@@ -4,21 +4,34 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@/apolloClient';
 const defaultOptions = {} as const;
-export type PokemonsQueryVariables = Types.Exact<{ [key: string]: never; }>;
+export type PokemonsQueryVariables = Types.Exact<{
+  options?: Types.InputMaybe<Types.PokemonsOptions>;
+}>;
 
 
-export type PokemonsQuery = { pokemons: Array<{ id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> }> };
+export type PokemonsQuery = { pokemons: { edges: Array<{ cursor: string, node: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } }>, pageInfo: { pageCount: number, totalCount: number, hasNextPage: boolean, hasPreviousPage: boolean } } };
 
 
 export const PokemonsDocument = gql`
-    query Pokemons {
-  pokemons {
-    id
-    name
-    dexes {
-      id
-      number
-      name
+    query Pokemons($options: PokemonsOptions) {
+  pokemons(options: $options) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        dexes {
+          id
+          number
+          name
+        }
+      }
+    }
+    pageInfo {
+      pageCount
+      totalCount
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
@@ -36,6 +49,7 @@ export const PokemonsDocument = gql`
  * @example
  * const { data, loading, error } = usePokemonsQuery({
  *   variables: {
+ *      options: // value for 'options'
  *   },
  * });
  */

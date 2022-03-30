@@ -104,6 +104,18 @@ export type MutationUpdateUserArgs = {
   id: Scalars['String'];
 };
 
+export type PageInfo = {
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  pageCount: Scalars['Int'];
+  totalCount: Scalars['Int'];
+};
+
+export type Pagination = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
 export type Pokemon = {
   createdAt: Scalars['DateTime'];
   dexes: Array<PokemonDex>;
@@ -135,15 +147,35 @@ export type PokemonDexCreate = {
   number: Scalars['Int'];
 };
 
-export type PokemonDexUpdate = {
-  dexId?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  number?: InputMaybe<Scalars['Int']>;
+export type PokemonEdge = {
+  cursor: Scalars['String'];
+  node: Pokemon;
 };
+
+export type PokemonOrder = {
+  field: PokemonOrderField;
+  sortOrder: Sort;
+};
+
+/** Order fields for pokemons */
+export enum PokemonOrderField {
+  CreatedAt = 'CreatedAt',
+  Name = 'Name'
+}
 
 export type PokemonUpdate = {
   dexes?: InputMaybe<Array<PokemonDexCreate>>;
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type PokemonsConnection = {
+  edges: Array<PokemonEdge>;
+  pageInfo: PageInfo;
+};
+
+export type PokemonsOptions = {
+  orderBy?: InputMaybe<Array<PokemonOrder>>;
+  pagination?: InputMaybe<Pagination>;
 };
 
 export type Query = {
@@ -151,7 +183,7 @@ export type Query = {
   dexes: Array<Dex>;
   me?: Maybe<User>;
   pokemon?: Maybe<Pokemon>;
-  pokemons: Array<Pokemon>;
+  pokemons: PokemonsConnection;
   user?: Maybe<User>;
   users: Array<User>;
 };
@@ -164,6 +196,11 @@ export type QueryDexArgs = {
 
 export type QueryPokemonArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryPokemonsArgs = {
+  options?: InputMaybe<PokemonsOptions>;
 };
 
 
@@ -192,6 +229,12 @@ export type RoleUpdate = {
   isAdmin?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
 };
+
+/** Sorting */
+export enum Sort {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type User = {
   avatar?: Maybe<Scalars['String']>;

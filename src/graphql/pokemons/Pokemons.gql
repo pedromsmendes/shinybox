@@ -1,11 +1,22 @@
-query Pokemons{
-  pokemons {
-    id
-    name
-    dexes {
-      id
-      number
-      name
+query Pokemons($options: PokemonsOptions){
+  pokemons(options: $options) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        dexes {
+          id
+          number
+          name
+        }
+      }
+    }
+    pageInfo {
+      pageCount
+      totalCount
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
