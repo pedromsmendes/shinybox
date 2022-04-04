@@ -9,7 +9,7 @@ export type PokemonsQueryVariables = Types.Exact<{
 }>;
 
 
-export type PokemonsQuery = { pokemons: { edges: Array<{ cursor: string, node: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } }>, pageInfo: { pageCount: number, totalCount: number, hasNextPage: boolean, hasPreviousPage: boolean } } };
+export type PokemonsQuery = { pokemons: { count: number, edges: Array<{ cursor: string, node: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } }> } };
 
 
 export const PokemonsDocument = gql`
@@ -27,12 +27,7 @@ export const PokemonsDocument = gql`
         }
       }
     }
-    pageInfo {
-      pageCount
-      totalCount
-      hasNextPage
-      hasPreviousPage
-    }
+    count
   }
 }
     `;

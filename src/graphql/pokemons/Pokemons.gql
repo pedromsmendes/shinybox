@@ -12,11 +12,6 @@ query Pokemons($options: PokemonsOptions){
         }
       }
     }
-    pageInfo {
-      pageCount
-      totalCount
-      hasNextPage
-      hasPreviousPage
-    }
+    count
   }
 }

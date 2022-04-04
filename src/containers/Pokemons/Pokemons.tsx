@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
 import {
   ActionIcon,
+  Button,
   createStyles,
   LoadingOverlay,
 } from '@mantine/core';
@@ -25,6 +26,9 @@ const useStyles = createStyles(() => ({
 }));
 
 const Pokemons = () => {
+  const [lastCursor, setLastCursor] = useState('');
+  const [lastCount, setLastCount] = useState(5);
+
   const { classes } = useStyles();
 
   const { t } = useTranslation();
@@ -34,13 +38,22 @@ const Pokemons = () => {
       options: {
         orderBy: [{ field: PokemonOrderField.Name, sortOrder: Sort.Asc }],
         pagination: {
-          first: 5,
-          // after: '673a2f46-a4ce-4dce-876c-0351df5b60c7',
+          first: lastCount,
+          after: lastCursor ?? undefined,
         },
       },
     },
     fetchPolicy: 'cache-and-network',
   });
+
+  const pokemons = useMemo(() => (
+    (data?.pokemons?.edges || []).map((edge) => edge.node)
+  ), [data?.pokemons?.edges]);
+
+  useEffect(() => {
+    setLastCursor(pokemons[pokemons.length - 1].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pokemons.length]);
 
   const [removePokemons] = useRemovePokemonsMutation();
 
@@ -58,6 +71,8 @@ const Pokemons = () => {
     <div className={classes.pokemonsContainer}>
       <LoadingOverlay visible={loading} radius="sm" />
 
+      <Button onClick={() => }>next</Button>
+
       <Table
         headers={(
           <>
@@ -67,7 +82,7 @@ const Pokemons = () => {
           </>
         )}
       >
-        {data?.pokemons.edges.map(({ node: pokemon }) => (
+        {pokemons.map((pokemon) => (
           <tr key={pokemon.id}>
             <td>{pokemon.id}</td>
             <td>{pokemon.name}</td>

@@ -104,13 +104,6 @@ export type MutationUpdateUserArgs = {
   id: Scalars['String'];
 };
 
-export type PageInfo = {
-  hasNextPage: Scalars['Boolean'];
-  hasPreviousPage: Scalars['Boolean'];
-  pageCount: Scalars['Int'];
-  totalCount: Scalars['Int'];
-};
-
 export type Pagination = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -169,8 +162,8 @@ export type PokemonUpdate = {
 };
 
 export type PokemonsConnection = {
+  count: Scalars['Int'];
   edges: Array<PokemonEdge>;
-  pageInfo: PageInfo;
 };
 
 export type PokemonsOptions = {
