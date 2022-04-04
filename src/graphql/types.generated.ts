@@ -164,6 +164,7 @@ export type PokemonUpdate = {
 export type PokemonsConnection = {
   count: Scalars['Int'];
   edges: Array<PokemonEdge>;
+  totalCount: Scalars['Int'];
 };
 
 export type PokemonsOptions = {

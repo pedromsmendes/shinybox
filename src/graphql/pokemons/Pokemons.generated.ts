@@ -9,7 +9,7 @@ export type PokemonsQueryVariables = Types.Exact<{
 }>;
 
 
-export type PokemonsQuery = { pokemons: { count: number, edges: Array<{ cursor: string, node: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } }> } };
+export type PokemonsQuery = { pokemons: { count: number, totalCount: number, edges: Array<{ cursor: string, node: { id: string, name: string, dexes: Array<{ id: string, number: number, name: string }> } }> } };
 
 
 export const PokemonsDocument = gql`
@@ -28,6 +28,7 @@ export const PokemonsDocument = gql`
       }
     }
     count
+    totalCount
   }
 }
     `;

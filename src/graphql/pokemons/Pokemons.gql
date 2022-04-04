@@ -13,5 +13,6 @@ query Pokemons($options: PokemonsOptions){
       }
     }
     count
+    totalCount
   }
 }
